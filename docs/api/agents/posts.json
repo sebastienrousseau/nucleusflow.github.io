@@ -1,0 +1,173 @@
+[
+  {
+    "date": "2026-10-31T00:00:00+00:00",
+    "description": "Learn about the engineering philosophy behind NucleusFlow, maintained by Sebastien Rousseau: memory-safe Rust, deterministic performance, and WCAG 2.2 Level AAA accessibility.",
+    "locale": "en_GB",
+    "tags": [],
+    "title": "About NucleusFlow: Engineering Principles & Governance",
+    "url": "https://nucleusflow.com/about/",
+    "wordCount": 268
+  },
+  {
+    "date": "2026-10-31T00:00:00+00:00",
+    "description": "WCAG 2.2 Level AAA accessibility compliance statement for nucleusflow.com: verified 7.0:1+ colour contrast ratios, keyboard navigation, semantic landmarks, and reduced motion.",
+    "locale": "en_GB",
+    "tags": [],
+    "title": "Accessibility Statement (WCAG 2.2 Level AAA) | NucleusFlow",
+    "url": "https://nucleusflow.com/accessibility/",
+    "wordCount": 350
+  },
+  {
+    "date": "2026-10-31T00:00:00+00:00",
+    "description": "Complete API reference for the nucleusflow Rust crate (v0.0.11) and CLI binary. Explore NucleusFlow, ContentProcessor, HandlebarsRenderer, HtmlGenerator, ConfigBuilder, core traits, and error types.",
+    "locale": "en_GB",
+    "tags": [],
+    "title": "API & CLI Reference: NucleusFlow Rust Crate & Command-Line Interface",
+    "url": "https://nucleusflow.com/api/",
+    "wordCount": 1132
+  },
+  {
+    "date": "2026-10-31T00:00:00+00:00",
+    "description": "Deep dive into NucleusFlow's three-stage Rust architecture: ContentProcessor, HandlebarsRenderer with parking_lot::RwLock caching, HtmlGenerator, and Architectural Decision Records (ADRs).",
+    "locale": "en_GB",
+    "tags": [],
+    "title": "Pipeline Architecture: Three-Stage Trait Design & Thread Safety",
+    "url": "https://nucleusflow.com/architecture/",
+    "wordCount": 596
+  },
+  {
+    "date": "2026-10-31T00:00:00+00:00",
+    "description": "Verified Criterion 0.8 micro-benchmarks for NucleusFlow on Apple Silicon (M4, Rust 1.89.0): ~4.2 µs Markdown + YAML parse, ~12.5 µs Handlebars render, ~8.1 µs HTML minification, and ~28.0 µs end-to-end.",
+    "locale": "en_GB",
+    "tags": [],
+    "title": "Performance Benchmarks: Sub-30 Microsecond Rust Content Pipeline",
+    "url": "https://nucleusflow.com/benchmarks/",
+    "wordCount": 433
+  },
+  {
+    "date": "2026-10-31T00:00:00+00:00",
+    "description": "Complete release history for the NucleusFlow Rust crate (v0.0.1 through v0.0.11) and the nucleusflow.com documentation portal.",
+    "locale": "en_GB",
+    "tags": [],
+    "title": "Release Changelog: NucleusFlow Library & Documentation History",
+    "url": "https://nucleusflow.com/changelog/",
+    "wordCount": 200
+  },
+  {
+    "date": "2026-10-31T00:00:00+00:00",
+    "description": "Get in touch with the NucleusFlow maintainer for technical support, feature proposals, custom template integrations, or private security reporting.",
+    "locale": "en_GB",
+    "tags": [],
+    "title": "Contact & Support: NucleusFlow Discussions, Issues & Security",
+    "url": "https://nucleusflow.com/contact/",
+    "wordCount": 170
+  },
+  {
+    "date": "2026-10-31T00:00:00+00:00",
+    "description": "Contributor guide for the NucleusFlow Rust library and documentation portal: branch naming, complexity ceilings, SSH-signed commits, and verification commands.",
+    "locale": "en_GB",
+    "tags": [],
+    "title": "Contributing to NucleusFlow: Workflow, Quality Gates & Commit Standards",
+    "url": "https://nucleusflow.com/contributing/",
+    "wordCount": 185
+  },
+  {
+    "date": "2026-10-31",
+    "description": "Answers to common questions about NucleusFlow: Rust MSRV (1.89.0), embedding the crate vs using the CLI, Handlebars vs Tera/Go templates, HTML sanitization, and licensing.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "Frequently Asked Questions (FAQ) | NucleusFlow",
+    "url": "https://nucleusflow.com/faqs/",
+    "wordCount": 615
+  },
+  {
+    "date": "2026-10-31T00:00:00+00:00",
+    "description": "Complete specification of formats supported by NucleusFlow: CommonMark, GitHub Flavored Markdown (GFM), YAML 1.2 frontmatter, Handlebars (.hbs) templates, TOML configuration, and minified HTML5.",
+    "locale": "en_GB",
+    "tags": [],
+    "title": "Supported Formats: CommonMark, GFM, YAML 1.2, Handlebars & HTML5",
+    "url": "https://nucleusflow.com/formats/",
+    "wordCount": 681
+  },
+  {
+    "date": "2026-10-31T00:00:00+00:00",
+    "description": "Install NucleusFlow via Cargo, Homebrew, Nix, or Docker. Scaffold a new static site or embed the three-stage Rust content processing pipeline in under five minutes.",
+    "locale": "en_GB",
+    "tags": [],
+    "title": "Getting Started with NucleusFlow: Rust CLI & Library Quickstart",
+    "url": "https://nucleusflow.com/getting-started/",
+    "wordCount": 575
+  },
+  {
+    "date": "2026-10-31",
+    "description": "Fast, flexible, and secure static site generator and content processing pipeline in Rust. Parse CommonMark + GFM, render cached Handlebars templates, and minify HTML5 in ~28 microseconds per page with zero unsafe code.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "NucleusFlow: Fast, Secure Rust Static Site Generator & Content Pipeline",
+    "url": "https://nucleusflow.com/index.html",
+    "wordCount": 1038
+  },
+  {
+    "date": "2026-10-31T00:00:00+00:00",
+    "description": "How nucleusflow.com is compiled using the Rust Static Site Generator (ssg 0.0.69) and styled with the Skeletonic CSS Visage design system.",
+    "locale": "en_GB",
+    "tags": [],
+    "title": "Made with SSG & Skeletonic CSS | NucleusFlow Documentation",
+    "url": "https://nucleusflow.com/made-with-ssg/",
+    "wordCount": 109
+  },
+  {
+    "date": "2026-10-31T00:00:00+00:00",
+    "description": "You are currently offline. Cached NucleusFlow documentation pages remain accessible through the Service Worker.",
+    "locale": "en_GB",
+    "tags": [],
+    "title": "Offline Mode | NucleusFlow Documentation",
+    "url": "https://nucleusflow.com/offline/",
+    "wordCount": 56
+  },
+  {
+    "date": "2026-10-31T00:00:00+00:00",
+    "description": "Privacy policy for nucleusflow.com and the NucleusFlow Rust crate: zero cookies, zero analytics beacons, zero telemetry, and strict Content Security Policy enforcement.",
+    "locale": "en_GB",
+    "tags": [],
+    "title": "Privacy Policy: Zero Telemetry & Zero Cookies | NucleusFlow",
+    "url": "https://nucleusflow.com/privacy/",
+    "wordCount": 174
+  },
+  {
+    "date": "2026-10-31T00:00:00+00:00",
+    "description": "NucleusFlow security architecture: #![forbid(unsafe_code)], property-tested path traversal rejection, HTML allowlist sanitization, bounded DoS budgets, and supply-chain verification.",
+    "locale": "en_GB",
+    "tags": [],
+    "title": "Security & Memory Safety: Zero Unsafe Rust & XSS Defense",
+    "url": "https://nucleusflow.com/security/",
+    "wordCount": 425
+  },
+  {
+    "date": "2026-10-31T00:00:00+00:00",
+    "description": "Terms of use and open-source licensing for NucleusFlow and nucleusflow.com under the dual Apache License 2.0 and MIT License.",
+    "locale": "en_GB",
+    "tags": [],
+    "title": "Terms of Use & Open-Source Licensing | NucleusFlow",
+    "url": "https://nucleusflow.com/terms/",
+    "wordCount": 132
+  },
+  {
+    "date": "2026-10-31T00:00:00+00:00",
+    "description": "Open-source crates and projects that power NucleusFlow: pulldown-cmark, handlebars, noyalib, minify-html, parking_lot, clap, tokio, ssg, and Skeletonic CSS.",
+    "locale": "en_GB",
+    "tags": [],
+    "title": "Acknowledgements & Open-Source Credits | NucleusFlow",
+    "url": "https://nucleusflow.com/thanks/",
+    "wordCount": 190
+  },
+  {
+    "date": "2026-10-31T00:00:00+00:00",
+    "description": "Production patterns for NucleusFlow: technical documentation portals, embedded Rust CMS pipelines, automated CI/CD release notes, and sanitized user-content rendering.",
+    "locale": "en_GB",
+    "tags": [],
+    "title": "Use Cases: Documentation Portals, Embedded Pipelines & CI/CD Publishing",
+    "url": "https://nucleusflow.com/use-cases/",
+    "wordCount": 314
+  }
+]

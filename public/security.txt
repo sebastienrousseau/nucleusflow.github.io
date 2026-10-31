@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+Contact: mailto:sebastian.rousseau@gmail.com
+Contact: https://github.com/sebastienrousseau/nucleusflow/security/advisories/new
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://nucleusflow.com/.well-known/security.txt
+Policy: https://nucleusflow.com/security/index.html

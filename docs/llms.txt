@@ -1,0 +1,29 @@
+# NucleusFlow
+> Fast, flexible, and secure static site generator and content processing pipeline in Rust. Parse CommonMark + GFM with YAML frontmatter, render cached Handlebars templates with partials and custom helpers, and minify HTML5 output in ~28 microseconds per page with zero unsafe code.
+
+## Supported Content, Template & Configuration Formats
+- CommonMark & GitHub Flavored Markdown (GFM): Tables, footnotes, strikethrough, automated Table of Contents (`<nav class="toc">`), and HTML allowlist sanitization via `pulldown-cmark` 0.13.5
+- YAML Frontmatter: Spec-compliant YAML 1.2 extraction and validation via `noyalib` 0.0.58 with automatic Schema.org JSON-LD injection
+- Handlebars Templates (`.hbs`): Compiled template caching (`parking_lot::RwLock`), reusable partials (`{> header}`), custom helpers (`UppercaseHelper`, `TemplateHelper` trait), and strict mode validation via `handlebars` 6.2
+- HTML5 Output & Minification: Structural tag balance validation, escaped `<meta>` injection, and sub-10 microsecond HTML/CSS/JS minification via `minify-html` 0.18.1
+- Multi-Environment Configuration: TOML files (`nucleusflow.toml`), builder API (`ConfigBuilder`), profiles (`Development`, `Staging`, `Production`, `Custom`), and safe environment variable overrides (`NUCLEUSFLOW_*`)
+
+## Pipeline Stages & Integration Targets
+- Stage 1 Content Processor (`ContentProcessor` / `MarkdownProcessor`): Frontmatter extraction, Markdown parsing, TOC synthesis, and XSS pattern blocking (10 MB max content budget)
+- Stage 2 Template Renderer (`TemplateRenderer` / `HandlebarsRenderer`): Thread-safe `Arc<RwLock<...>>` template compilation cache (1 MB max template, 100 MB cache budget)
+- Stage 3 Output Generator (`Generator` / `HtmlGenerator`): HTML5 validation, minification or pretty-printing, static asset caching, and file output (`0o644` permissions)
+- Standalone CLI (`nucleusflow`): `nucleusflow new`, `nucleusflow build --minify`, and `nucleusflow serve --watch`
+
+## Core Documentation & Resources
+- Homepage: https://nucleusflow.com/
+- Full LLM Context Bundle: https://nucleusflow.com/llms-full.txt
+- Getting Started: https://nucleusflow.com/getting-started/
+- Supported Formats: https://nucleusflow.com/formats/
+- Use Cases: https://nucleusflow.com/use-cases/
+- Performance Benchmarks: https://nucleusflow.com/benchmarks/
+- Pipeline Architecture: https://nucleusflow.com/architecture/
+- Security & Memory Safety: https://nucleusflow.com/security/
+- API & CLI Reference: https://nucleusflow.com/api/
+- Frequently Asked Questions: https://nucleusflow.com/faqs/
+- Author & Pedigree: https://nucleusflow.com/about/
+- Sebastien Rousseau: https://sebastienrousseau.com/

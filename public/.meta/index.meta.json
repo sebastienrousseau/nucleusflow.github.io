@@ -1,0 +1,17 @@
+{
+  "author": "Sebastien Rousseau",
+  "banner": "https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp",
+  "banner_alt": "NucleusFlow - Fast, Secure Rust Static Site Generator & Content Pipeline",
+  "date": "2026-10-31",
+  "description": "Fast, flexible, and secure static site generator and content processing pipeline in Rust. Parse CommonMark + GFM, render cached Handlebars templates, and minify HTML5 in ~28 microseconds per page with zero unsafe code.",
+  "keywords": "nucleusflow, rust static site generator, content processing pipeline, rust markdown parser, handlebars template engine, pulldown-cmark, noyalib, html minification, static site builder, rust cms pipeline",
+  "language": "en-GB",
+  "layout": "index",
+  "logo": "https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg",
+  "name": "NucleusFlow",
+  "permalink": "https://nucleusflow.com/",
+  "reading_time": 5,
+  "short_name": "nucleusflow",
+  "title": "NucleusFlow: Fast, Secure Rust Static Site Generator & Content Pipeline",
+  "word_count": 1038
+}

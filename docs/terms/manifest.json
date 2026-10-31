@@ -1,0 +1,12 @@
+{
+  "background_color": "#ffffff",
+  "description": "Terms of use and open-source licensing for NucleusFlow and nucleusflow.com under the dual Apache License 2.0 and MIT Lic",
+  "display": "standalone",
+  "icons": [],
+  "name": "NucleusFlow",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "nucleusflow",
+  "start_url": ".",
+  "theme_color": "#11355c"
+}

@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://nucleusflow.com/changelog/index.html/sitemap.xml

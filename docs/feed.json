@@ -1,0 +1,294 @@
+{
+  "feed_url": "https://nucleusflow.com/feed.json",
+  "home_page_url": "https://nucleusflow.com/",
+  "items": [
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "The requested documentation page could not be found on nucleusflow.com. Return to the homepage or browse the API, formats, and architecture guides.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/404/",
+      "language": "en_GB",
+      "tags": [],
+      "title": "404: Page Not Found | NucleusFlow",
+      "url": "https://nucleusflow.com/404/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Learn about the engineering philosophy behind NucleusFlow, maintained by Sebastien Rousseau: memory-safe Rust, deterministic performance, and WCAG 2.2 Level AAA accessibility.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/about/",
+      "language": "en_GB",
+      "tags": [],
+      "title": "About NucleusFlow: Engineering Principles & Governance",
+      "url": "https://nucleusflow.com/about/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "WCAG 2.2 Level AAA accessibility compliance statement for nucleusflow.com: verified 7.0:1+ colour contrast ratios, keyboard navigation, semantic landmarks, and reduced motion.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/accessibility/",
+      "language": "en_GB",
+      "tags": [],
+      "title": "Accessibility Statement (WCAG 2.2 Level AAA) | NucleusFlow",
+      "url": "https://nucleusflow.com/accessibility/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Complete API reference for the nucleusflow Rust crate (v0.0.11) and CLI binary. Explore NucleusFlow, ContentProcessor, HandlebarsRenderer, HtmlGenerator, ConfigBuilder, core traits, and error types.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/api/",
+      "language": "en_GB",
+      "tags": [],
+      "title": "API & CLI Reference: NucleusFlow Rust Crate & Command-Line Interface",
+      "url": "https://nucleusflow.com/api/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Deep dive into NucleusFlow's three-stage Rust architecture: ContentProcessor, HandlebarsRenderer with parking_lot::RwLock caching, HtmlGenerator, and Architectural Decision Records (ADRs).",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/architecture/",
+      "language": "en_GB",
+      "tags": [],
+      "title": "Pipeline Architecture: Three-Stage Trait Design & Thread Safety",
+      "url": "https://nucleusflow.com/architecture/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Verified Criterion 0.8 micro-benchmarks for NucleusFlow on Apple Silicon (M4, Rust 1.89.0): ~4.2 µs Markdown + YAML parse, ~12.5 µs Handlebars render, ~8.1 µs HTML minification, and ~28.0 µs end-to-end.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/benchmarks/",
+      "language": "en_GB",
+      "tags": [],
+      "title": "Performance Benchmarks: Sub-30 Microsecond Rust Content Pipeline",
+      "url": "https://nucleusflow.com/benchmarks/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Complete release history for the NucleusFlow Rust crate (v0.0.1 through v0.0.11) and the nucleusflow.com documentation portal.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/changelog/",
+      "language": "en_GB",
+      "tags": [],
+      "title": "Release Changelog: NucleusFlow Library & Documentation History",
+      "url": "https://nucleusflow.com/changelog/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Get in touch with the NucleusFlow maintainer for technical support, feature proposals, custom template integrations, or private security reporting.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/contact/",
+      "language": "en_GB",
+      "tags": [],
+      "title": "Contact & Support: NucleusFlow Discussions, Issues & Security",
+      "url": "https://nucleusflow.com/contact/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Contributor guide for the NucleusFlow Rust library and documentation portal: branch naming, complexity ceilings, SSH-signed commits, and verification commands.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/contributing/",
+      "language": "en_GB",
+      "tags": [],
+      "title": "Contributing to NucleusFlow: Workflow, Quality Gates & Commit Standards",
+      "url": "https://nucleusflow.com/contributing/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Answers to common questions about NucleusFlow: Rust MSRV (1.89.0), embedding the crate vs using the CLI, Handlebars vs Tera/Go templates, HTML sanitization, and licensing.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/faqs/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "Frequently Asked Questions (FAQ) | NucleusFlow",
+      "url": "https://nucleusflow.com/faqs/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Complete specification of formats supported by NucleusFlow: CommonMark, GitHub Flavored Markdown (GFM), YAML 1.2 frontmatter, Handlebars (.hbs) templates, TOML configuration, and minified HTML5.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/formats/",
+      "language": "en_GB",
+      "tags": [],
+      "title": "Supported Formats: CommonMark, GFM, YAML 1.2, Handlebars & HTML5",
+      "url": "https://nucleusflow.com/formats/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Install NucleusFlow via Cargo, Homebrew, Nix, or Docker. Scaffold a new static site or embed the three-stage Rust content processing pipeline in under five minutes.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/getting-started/",
+      "language": "en_GB",
+      "tags": [],
+      "title": "Getting Started with NucleusFlow: Rust CLI & Library Quickstart",
+      "url": "https://nucleusflow.com/getting-started/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "How nucleusflow.com is compiled using the Rust Static Site Generator (ssg 0.0.69) and styled with the Skeletonic CSS Visage design system.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/made-with-ssg/",
+      "language": "en_GB",
+      "tags": [],
+      "title": "Made with SSG & Skeletonic CSS | NucleusFlow Documentation",
+      "url": "https://nucleusflow.com/made-with-ssg/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "You are currently offline. Cached NucleusFlow documentation pages remain accessible through the Service Worker.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/offline/",
+      "language": "en_GB",
+      "tags": [],
+      "title": "Offline Mode | NucleusFlow Documentation",
+      "url": "https://nucleusflow.com/offline/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Privacy policy for nucleusflow.com and the NucleusFlow Rust crate: zero cookies, zero analytics beacons, zero telemetry, and strict Content Security Policy enforcement.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/privacy/",
+      "language": "en_GB",
+      "tags": [],
+      "title": "Privacy Policy: Zero Telemetry & Zero Cookies | NucleusFlow",
+      "url": "https://nucleusflow.com/privacy/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "NucleusFlow security architecture: #![forbid(unsafe_code)], property-tested path traversal rejection, HTML allowlist sanitization, bounded DoS budgets, and supply-chain verification.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/security/",
+      "language": "en_GB",
+      "tags": [],
+      "title": "Security & Memory Safety: Zero Unsafe Rust & XSS Defense",
+      "url": "https://nucleusflow.com/security/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Terms of use and open-source licensing for NucleusFlow and nucleusflow.com under the dual Apache License 2.0 and MIT License.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/terms/",
+      "language": "en_GB",
+      "tags": [],
+      "title": "Terms of Use & Open-Source Licensing | NucleusFlow",
+      "url": "https://nucleusflow.com/terms/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Open-source crates and projects that power NucleusFlow: pulldown-cmark, handlebars, noyalib, minify-html, parking_lot, clap, tokio, ssg, and Skeletonic CSS.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/thanks/",
+      "language": "en_GB",
+      "tags": [],
+      "title": "Acknowledgements & Open-Source Credits | NucleusFlow",
+      "url": "https://nucleusflow.com/thanks/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Production patterns for NucleusFlow: technical documentation portals, embedded Rust CMS pipelines, automated CI/CD release notes, and sanitized user-content rendering.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "https://nucleusflow.com/use-cases/",
+      "language": "en_GB",
+      "tags": [],
+      "title": "Use Cases: Documentation Portals, Embedded Pipelines & CI/CD Publishing",
+      "url": "https://nucleusflow.com/use-cases/"
+    }
+  ],
+  "language": "en-GB",
+  "title": "NucleusFlow",
+  "version": "https://jsonfeed.org/version/1.1"
+}

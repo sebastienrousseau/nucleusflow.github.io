@@ -1,0 +1,12 @@
+{
+  "background_color": "#ffffff",
+  "description": "Install NucleusFlow via Cargo, Homebrew, Nix, or Docker. Scaffold a new static site or embed the three-stage Rust conten",
+  "display": "standalone",
+  "icons": [],
+  "name": "NucleusFlow",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "nucleusflow",
+  "start_url": ".",
+  "theme_color": "#11355c"
+}

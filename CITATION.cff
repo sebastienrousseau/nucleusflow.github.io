@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this documentation or software, please cite it as below."
+title: "nucleusflow.com: Fast, flexible, and secure static site generator and content processing pipeline documentation"
+version: 0.0.1
+date-released: 2026-10-31
+url: "https://nucleusflow.com/"
+repository-code: "https://github.com/sebastienrousseau/nucleusflow.github.io"
+license: "Apache-2.0 OR MIT"
+authors:
+  - family-names: "Rousseau"
+    given-names: "Sebastien"

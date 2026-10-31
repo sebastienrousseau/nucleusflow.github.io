@@ -1,0 +1,12 @@
+{
+  "background_color": "#ffffff",
+  "description": "Answers to common questions about NucleusFlow: Rust MSRV (1.89.0), embedding the crate vs using the CLI, Handlebars vs T",
+  "display": "standalone",
+  "icons": [],
+  "name": "NucleusFlow",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "nucleusflow",
+  "start_url": ".",
+  "theme_color": "#11355c"
+}

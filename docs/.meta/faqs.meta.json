@@ -1,0 +1,19 @@
+{
+  "author": "Sebastien Rousseau",
+  "banner": "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp",
+  "date": "2026-10-31",
+  "description": "Answers to common questions about NucleusFlow: Rust MSRV (1.89.0), embedding the crate vs using the CLI, Handlebars vs Tera/Go templates, HTML sanitization, and licensing.",
+  "eyebrow": "Questions & Answers",
+  "headline": "Frequently Asked Questions",
+  "keywords": "nucleusflow faq, rust static site generator questions, nucleusflow vs zola, nucleusflow vs hugo, handlebars rust template engine",
+  "language": "en-GB",
+  "layout": "faqs",
+  "lead": "Technical guidance on NucleusFlow's three-stage Rust architecture, supported formats, microsecond benchmarks, and dual licensing.",
+  "logo": "https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg",
+  "name": "NucleusFlow",
+  "permalink": "https://nucleusflow.com/faqs/index.html",
+  "reading_time": 3,
+  "short_name": "nucleusflow",
+  "title": "Frequently Asked Questions (FAQ) | NucleusFlow",
+  "word_count": 615
+}

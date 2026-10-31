@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NucleusFlow: Fast, Secure Rust Static Site Generator &amp; Content Pipeline</title>
+    <link>https://nucleusflow.com/</link>
+    <description>Fast, flexible, and secure static site generator and content processing pipeline in Rust. Parse CommonMark + GFM, render cached Handlebars templates, and minify HTML5 in ~28 microseconds per page with zero unsafe code.</description>
+    <atom:link href="https://nucleusflow.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <language>en</language>
+    <item>
+      <title>404: Page Not Found | NucleusFlow</title>
+      <link>https://nucleusflow.com/404/</link>
+      <description>The requested documentation page could not be found on nucleusflow.com. Return to the homepage or browse the API, formats, and architecture guides.</description>
+      <guid isPermaLink="true">https://nucleusflow.com/404/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg" type="image/jpeg" length="0"/>
+    </item>
+    <item>
+      <title>API & CLI Reference: NucleusFlow Rust Crate & Command-Line Interface</title>
+      <link>https://nucleusflow.com/api/</link>
+      <description>Complete API reference for the nucleusflow Rust crate (v0.0.11) and CLI binary. Explore NucleusFlow, ContentProcessor, HandlebarsRenderer, HtmlGenerator, ConfigBuilder, core traits, and error types.</description>
+      <guid isPermaLink="true">https://nucleusflow.com/api/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg" type="image/jpeg" length="0"/>
+    </item>
+    <item>
+      <title>About NucleusFlow: Engineering Principles & Governance</title>
+      <link>https://nucleusflow.com/about/</link>
+      <description>Learn about the engineering philosophy behind NucleusFlow, maintained by Sebastien Rousseau: memory-safe Rust, deterministic performance, and WCAG 2.2 Level AAA accessibility.</description>
+      <guid isPermaLink="true">https://nucleusflow.com/about/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg" type="image/jpeg" length="0"/>
+    </item>
+    <item>
+      <title>Accessibility Statement (WCAG 2.2 Level AAA) | NucleusFlow</title>
+      <link>https://nucleusflow.com/accessibility/</link>
+      <description>WCAG 2.2 Level AAA accessibility compliance statement for nucleusflow.com: verified 7.0:1+ colour contrast ratios, keyboard navigation, semantic landmarks, and reduced motion.</description>
+      <guid isPermaLink="true">https://nucleusflow.com/accessibility/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg" type="image/jpeg" length="0"/>
+    </item>
+    <item>
+      <title>Acknowledgements & Open-Source Credits | NucleusFlow</title>
+      <link>https://nucleusflow.com/thanks/</link>
+      <description>Open-source crates and projects that power NucleusFlow: pulldown-cmark, handlebars, noyalib, minify-html, parking_lot, clap, tokio, ssg, and Skeletonic CSS.</description>
+      <guid isPermaLink="true">https://nucleusflow.com/thanks/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg" type="image/jpeg" length="0"/>
+    </item>
+    <item>
+      <title>Contact & Support: NucleusFlow Discussions, Issues & Security</title>
+      <link>https://nucleusflow.com/contact/</link>
+      <description>Get in touch with the NucleusFlow maintainer for technical support, feature proposals, custom template integrations, or private security reporting.</description>
+      <guid isPermaLink="true">https://nucleusflow.com/contact/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg" type="image/jpeg" length="0"/>
+    </item>
+    <item>
+      <title>Contributing to NucleusFlow: Workflow, Quality Gates & Commit Standards</title>
+      <link>https://nucleusflow.com/contributing/</link>
+      <description>Contributor guide for the NucleusFlow Rust library and documentation portal: branch naming, complexity ceilings, SSH-signed commits, and verification commands.</description>
+      <guid isPermaLink="true">https://nucleusflow.com/contributing/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg" type="image/jpeg" length="0"/>
+    </item>
+    <item>
+      <title>Frequently Asked Questions (FAQ) | NucleusFlow</title>
+      <link>https://nucleusflow.com/faqs/</link>
+      <description>Answers to common questions about NucleusFlow: Rust MSRV (1.89.0), embedding the crate vs using the CLI, Handlebars vs Tera/Go templates, HTML sanitization, and licensing.</description>
+      <guid isPermaLink="true">https://nucleusflow.com/faqs/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
+    </item>
+    <item>
+      <title>Getting Started with NucleusFlow: Rust CLI & Library Quickstart</title>
+      <link>https://nucleusflow.com/getting-started/</link>
+      <description>Install NucleusFlow via Cargo, Homebrew, Nix, or Docker. Scaffold a new static site or embed the three-stage Rust content processing pipeline in under five minutes.</description>
+      <guid isPermaLink="true">https://nucleusflow.com/getting-started/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg" type="image/jpeg" length="0"/>
+    </item>
+    <item>
+      <title>Made with SSG & Skeletonic CSS | NucleusFlow Documentation</title>
+      <link>https://nucleusflow.com/made-with-ssg/</link>
+      <description>How nucleusflow.com is compiled using the Rust Static Site Generator (ssg 0.0.69) and styled with the Skeletonic CSS Visage design system.</description>
+      <guid isPermaLink="true">https://nucleusflow.com/made-with-ssg/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg" type="image/jpeg" length="0"/>
+    </item>
+    <item>
+      <title>Offline Mode | NucleusFlow Documentation</title>
+      <link>https://nucleusflow.com/offline/</link>
+      <description>You are currently offline. Cached NucleusFlow documentation pages remain accessible through the Service Worker.</description>
+      <guid isPermaLink="true">https://nucleusflow.com/offline/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg" type="image/jpeg" length="0"/>
+    </item>
+    <item>
+      <title>Performance Benchmarks: Sub-30 Microsecond Rust Content Pipeline</title>
+      <link>https://nucleusflow.com/benchmarks/</link>
+      <description>Verified Criterion 0.8 micro-benchmarks for NucleusFlow on Apple Silicon (M4, Rust 1.89.0): ~4.2 µs Markdown + YAML parse, ~12.5 µs Handlebars render, ~8.1 µs HTML minification, and ~28.0 µs end-to-end.</description>
+      <guid isPermaLink="true">https://nucleusflow.com/benchmarks/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg" type="image/jpeg" length="0"/>
+    </item>
+    <item>
+      <title>Pipeline Architecture: Three-Stage Trait Design & Thread Safety</title>
+      <link>https://nucleusflow.com/architecture/</link>
+      <description>Deep dive into NucleusFlow&apos;s three-stage Rust architecture: ContentProcessor, HandlebarsRenderer with parking_lot::RwLock caching, HtmlGenerator, and Architectural Decision Records (ADRs).</description>
+      <guid isPermaLink="true">https://nucleusflow.com/architecture/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg" type="image/jpeg" length="0"/>
+    </item>
+    <item>
+      <title>Privacy Policy: Zero Telemetry & Zero Cookies | NucleusFlow</title>
+      <link>https://nucleusflow.com/privacy/</link>
+      <description>Privacy policy for nucleusflow.com and the NucleusFlow Rust crate: zero cookies, zero analytics beacons, zero telemetry, and strict Content Security Policy enforcement.</description>
+      <guid isPermaLink="true">https://nucleusflow.com/privacy/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg" type="image/jpeg" length="0"/>
+    </item>
+    <item>
+      <title>Release Changelog: NucleusFlow Library & Documentation History</title>
+      <link>https://nucleusflow.com/changelog/</link>
+      <description>Complete release history for the NucleusFlow Rust crate (v0.0.1 through v0.0.11) and the nucleusflow.com documentation portal.</description>
+      <guid isPermaLink="true">https://nucleusflow.com/changelog/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg" type="image/jpeg" length="0"/>
+    </item>
+    <item>
+      <title>Security & Memory Safety: Zero Unsafe Rust & XSS Defense</title>
+      <link>https://nucleusflow.com/security/</link>
+      <description>NucleusFlow security architecture: #![forbid(unsafe_code)], property-tested path traversal rejection, HTML allowlist sanitization, bounded DoS budgets, and supply-chain verification.</description>
+      <guid isPermaLink="true">https://nucleusflow.com/security/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg" type="image/jpeg" length="0"/>
+    </item>
+    <item>
+      <title>Supported Formats: CommonMark, GFM, YAML 1.2, Handlebars & HTML5</title>
+      <link>https://nucleusflow.com/formats/</link>
+      <description>Complete specification of formats supported by NucleusFlow: CommonMark, GitHub Flavored Markdown (GFM), YAML 1.2 frontmatter, Handlebars (.hbs) templates, TOML configuration, and minified HTML5.</description>
+      <guid isPermaLink="true">https://nucleusflow.com/formats/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg" type="image/jpeg" length="0"/>
+    </item>
+    <item>
+      <title>Terms of Use & Open-Source Licensing | NucleusFlow</title>
+      <link>https://nucleusflow.com/terms/</link>
+      <description>Terms of use and open-source licensing for NucleusFlow and nucleusflow.com under the dual Apache License 2.0 and MIT License.</description>
+      <guid isPermaLink="true">https://nucleusflow.com/terms/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg" type="image/jpeg" length="0"/>
+    </item>
+    <item>
+      <title>Use Cases: Documentation Portals, Embedded Pipelines & CI/CD Publishing</title>
+      <link>https://nucleusflow.com/use-cases/</link>
+      <description>Production patterns for NucleusFlow: technical documentation portals, embedded Rust CMS pipelines, automated CI/CD release notes, and sanitized user-content rendering.</description>
+      <guid isPermaLink="true">https://nucleusflow.com/use-cases/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/nucleusflow/v1/logos/nucleusflow.svg" type="image/jpeg" length="0"/>
+    </item>
+  </channel>
+</rss>

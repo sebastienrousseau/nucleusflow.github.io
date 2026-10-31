@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# SSG v0.0.69 Configuration
+# https://github.com/sebastienrousseau/ssg
+
+site_name = "NucleusFlow"
+site_title = "NucleusFlow | Fast, Secure Rust Static Site Generator & Content Pipeline"
+site_description = "Fast, flexible, and secure static site generator and content processing pipeline in Rust. Parse CommonMark + GFM, render Handlebars templates, and minify HTML in ~28 microseconds per page."
+base_url = "https://nucleusflow.com"
+language = "en-GB"
+
+content_dir = "_posts"
+output_dir = "public"
+template_dir = "_layouts"
+serve_dir = "public"
+
+author = "Sebastien Rousseau"
+theme_color = "#11355c"
+apple_status_bar_style = "black-translucent"

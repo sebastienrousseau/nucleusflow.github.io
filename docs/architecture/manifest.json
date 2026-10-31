@@ -1,0 +1,12 @@
+{
+  "background_color": "#ffffff",
+  "description": "Deep dive into NucleusFlow's three-stage Rust architecture: ContentProcessor, HandlebarsRenderer with parking_lot::RwLoc",
+  "display": "standalone",
+  "icons": [],
+  "name": "NucleusFlow",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "nucleusflow",
+  "start_url": ".",
+  "theme_color": "#11355c"
+}

@@ -1,0 +1,12 @@
+{
+  "background_color": "#ffffff",
+  "description": "Contributor guide for the NucleusFlow Rust library and documentation portal: branch naming, complexity ceilings, SSH-sig",
+  "display": "standalone",
+  "icons": [],
+  "name": "NucleusFlow",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "nucleusflow",
+  "start_url": ".",
+  "theme_color": "#11355c"
+}

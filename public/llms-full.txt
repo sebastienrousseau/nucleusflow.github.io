@@ -1,0 +1,1114 @@
+# NucleusFlow
+> Fast, flexible, and secure static site generator and content processing pipeline in Rust. Parse CommonMark + GFM with YAML frontmatter, render cached Handlebars templates with partials and custom helpers, and minify HTML5 output in ~28 microseconds per page with zero unsafe code.
+
+## Supported Content, Template & Configuration Formats
+- CommonMark & GitHub Flavored Markdown (GFM): Tables, footnotes, strikethrough, automated Table of Contents (`<nav class="toc">`), and HTML allowlist sanitization via `pulldown-cmark` 0.13.5
+- YAML Frontmatter: Spec-compliant YAML 1.2 extraction and validation via `noyalib` 0.0.58 with automatic Schema.org JSON-LD injection
+- Handlebars Templates (`.hbs`): Compiled template caching (`parking_lot::RwLock`), reusable partials (`{> header}`), custom helpers (`UppercaseHelper`, `TemplateHelper` trait), and strict mode validation via `handlebars` 6.2
+- HTML5 Output & Minification: Structural tag balance validation, escaped `<meta>` injection, and sub-10 microsecond HTML/CSS/JS minification via `minify-html` 0.18.1
+- Multi-Environment Configuration: TOML files (`nucleusflow.toml`), builder API (`ConfigBuilder`), profiles (`Development`, `Staging`, `Production`, `Custom`), and safe environment variable overrides (`NUCLEUSFLOW_*`)
+
+## Pipeline Stages & Integration Targets
+- Stage 1 Content Processor (`ContentProcessor` / `MarkdownProcessor`): Frontmatter extraction, Markdown parsing, TOC synthesis, and XSS pattern blocking (10 MB max content budget)
+- Stage 2 Template Renderer (`TemplateRenderer` / `HandlebarsRenderer`): Thread-safe `Arc<RwLock<...>>` template compilation cache (1 MB max template, 100 MB cache budget)
+- Stage 3 Output Generator (`Generator` / `HtmlGenerator`): HTML5 validation, minification or pretty-printing, static asset caching, and file output (`0o644` permissions)
+- Standalone CLI (`nucleusflow`): `nucleusflow new`, `nucleusflow build --minify`, and `nucleusflow serve --watch`
+
+## Core Documentation & Resources
+- Homepage: https://nucleusflow.com/
+- Full LLM Context Bundle: https://nucleusflow.com/llms-full.txt
+- Getting Started: https://nucleusflow.com/getting-started/
+- Supported Formats: https://nucleusflow.com/formats/
+- Use Cases: https://nucleusflow.com/use-cases/
+- Performance Benchmarks: https://nucleusflow.com/benchmarks/
+- Pipeline Architecture: https://nucleusflow.com/architecture/
+- Security & Memory Safety: https://nucleusflow.com/security/
+- API & CLI Reference: https://nucleusflow.com/api/
+- Frequently Asked Questions: https://nucleusflow.com/faqs/
+- Author & Pedigree: https://nucleusflow.com/about/
+- Sebastien Rousseau: https://sebastienrousseau.com/
+
+---
+
+<section class="visage-intro" aria-labelledby="hero-heading">
+<div class="wrap">
+<p class="lilac-label">Rust Content Processing · Open Source</p>
+<h1 id="hero-heading">Compile static pages in <em>microseconds.</em><br>Zero unsafe code. Zero telemetry.</h1>
+<p>An open-source, high-throughput static site generator and content processing pipeline engineered in pure memory-safe Rust. Converts CommonMark + GFM with YAML 1.2 frontmatter and cached Handlebars templates into validated, minified HTML5 in ~28.0 µs per page as both an embeddable crate and standalone CLI.</p>
+<div class="actions">
+<a class="primary" href="/getting-started/index.html">Install CLI &amp; Crate</a>
+<a href="/formats/index.html">Explore Supported Formats</a>
+</div>
+<ul class="hero-assurances">
+<li>#![forbid(unsafe_code)] Rust Core</li>
+<li>~28.0 µs Single-Page Pipeline</li>
+<li>Library Crate + Standalone CLI</li>
+</ul>
+</div>
+</section>
+
+<section class="trust-strip" aria-label="Platform guarantees">
+<div class="wrap">
+<ul>
+<li>
+<b>~28.0 µs / Page</b>
+<span>End-to-end read, Markdown parse, Handlebars render, HTML5 minification, and write.</span>
+</li>
+<li>
+<b>~4.2 µs Markdown + YAML</b>
+<span>CommonMark + GFM tables/footnotes (`pulldown-cmark`) and YAML 1.2 frontmatter (`noyalib`).</span>
+</li>
+<li>
+<b>~12.5 µs Template Render</b>
+<span>Thread-safe `parking_lot::RwLock` compiled Handlebars template cache with partials and helpers.</span>
+</li>
+<li>
+<b>Zero Unsafe Code</b>
+<span>Crate-wide `#![forbid(unsafe_code)]`, HTML allowlist sanitization, and path traversal rejection.</span>
+</li>
+</ul>
+</div>
+</section>
+
+<section class="analysis-stage" id="workflows" aria-labelledby="workflows-heading">
+<div class="wrap image-shell">
+<picture>
+<source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/getty-images-LaU3HadwEeE-unsplash-320.webp 320w, https://cloudcdn.pro/stocks/images/getty-images-LaU3HadwEeE-unsplash-640.webp 640w, https://cloudcdn.pro/stocks/images/getty-images-LaU3HadwEeE-unsplash-1200.webp 1200w" sizes="100vw">
+<img src="https://cloudcdn.pro/stocks/images/getty-images-LaU3HadwEeE-unsplash-1200.webp" srcset="https://cloudcdn.pro/stocks/images/getty-images-LaU3HadwEeE-unsplash-640.webp 640w, https://cloudcdn.pro/stocks/images/getty-images-LaU3HadwEeE-unsplash-1200.webp 1200w, https://cloudcdn.pro/stocks/images/getty-images-LaU3HadwEeE-unsplash-1920.webp 1920w" sizes="(max-width: 40rem) 100vw, 80rem" width="1200" height="675" alt="High-throughput Rust content pipeline and static site compilation dashboard" loading="lazy" decoding="async">
+</picture>
+<div class="consultation-card">
+<p class="lilac-label">Composable Rust Architecture</p>
+<h2 id="workflows-heading">Embeddable Pipeline for Modern Engineering</h2>
+<p>Stop maintaining separate Markdown parsers for backend services and monolithic binaries for documentation portals. Share the exact same trait-driven Rust pipeline across your CLI builds, CI/CD jobs, and web microservices.</p>
+<a class="primary" href="/use-cases/index.html">View Production Workflows <span aria-hidden="true">↗</span></a>
+</div>
+</div>
+</section>
+
+<section class="visage-features" id="features" aria-labelledby="features-heading">
+<div class="wrap">
+<header class="section-heading">
+<p class="lilac-label">Engine Architecture</p>
+<h2 id="features-heading">Engineered for deterministic safety.</h2>
+<p>Three-stage trait pipeline combining memory-safe Rust execution, bounded DoS budgets, and dual Apache-2.0 or MIT licensing.</p>
+</header>
+<div class="three-cells">
+<article>
+<span>01</span>
+<h3>ContentProcessor (Stage 1)</h3>
+<p>Extracts YAML 1.2 frontmatter via noyalib, parses CommonMark + GFM tables, footnotes, and strikethrough via pulldown-cmark, generates semantic TOC navigation, and enforces an explicit HTML tag allowlist.</p>
+</article>
+<article>
+<span>02</span>
+<h3>HandlebarsRenderer (Stage 2)</h3>
+<p>Compiles and caches .hbs templates in a thread-safe parking_lot::RwLock registry. Supports nested partials, custom TemplateHelper implementations, balanced-brace checks, and strict variable validation.</p>
+</article>
+<article>
+<span>03</span>
+<h3>HtmlGenerator (Stage 3)</h3>
+<p>Verifies HTML5 structural tag balance across void and optional-close elements, injects escaped meta tags into head, minifies HTML/CSS/JS in ~8.1 µs via minify-html, and manages static asset caching.</p>
+</article>
+</div>
+</div>
+</section>
+
+<section class="visage-process" id="process" aria-labelledby="process-heading">
+<div class="wrap">
+<p class="lilac-label">The Processing Pipeline</p>
+<h2 id="process-heading">From Markdown source to minified HTML5.</h2>
+<div class="process-grid">
+<article>
+<b>1</b>
+<h3>Extract</h3>
+<p>Validate 10 MB content budgets, sanitize file paths, and parse YAML 1.2 frontmatter into Schema.org JSON-LD metadata.</p>
+<small>noyalib 0.0.58 frontmatter engine</small>
+</article>
+<article>
+<b>2</b>
+<h3>Parse</h3>
+<p>Transform CommonMark + GFM tables, footnotes, and strikethrough into sanitized HTML with automated Table of Contents.</p>
+<small>~4.2 µs pulldown-cmark 0.13.5</small>
+</article>
+<article>
+<b>3</b>
+<h3>Render</h3>
+<p>Evaluate compiled .hbs Handlebars layouts, partials, and custom helpers from the concurrent RwLock cache.</p>
+<small>~12.5 µs handlebars 6.2 render</small>
+</article>
+<article>
+<b>4</b>
+<h3>Minify</h3>
+<p>Verify HTML5 tag balance, inject escaped meta tags, and collapse HTML, inline CSS, and JS whitespace.</p>
+<small>~8.1 µs minify-html 0.18.1</small>
+</article>
+</div>
+</div>
+</section>
+
+<section class="analysis-stage" id="architecture-preview" aria-labelledby="arch-heading">
+<div class="wrap image-shell">
+<picture>
+<source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-320.webp 320w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-640.webp 640w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp 1200w" sizes="100vw">
+<img src="https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp" srcset="https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-640.webp 640w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp 1200w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1920.webp 1920w" sizes="(max-width: 40rem) 100vw, 80rem" width="1200" height="675" alt="London architectural skyline at night representing high-assurance Rust infrastructure" loading="lazy" decoding="async">
+</picture>
+<div class="consultation-card">
+<p class="lilac-label">High-Performance Pipeline</p>
+<h2 id="arch-heading">Deterministic Execution at Enterprise Scale</h2>
+<p>Engineered for documentation portals and backend services requiring bounded memory budgets, lock-free read concurrency, and zero unsafe blocks.</p>
+<a class="primary" href="/architecture/index.html">View Architecture Blueprint <span aria-hidden="true">↗</span></a>
+</div>
+</div>
+</section>
+
+<section class="terminal-stage" aria-labelledby="quickstart-heading">
+<div class="wrap terminal-grid">
+<div>
+<p class="lilac-label">Developer Quickstart</p>
+<h2 id="quickstart-heading">Install via Cargo, Homebrew, or Nix in Seconds</h2>
+<p>Run as a standalone CLI binary to scaffold, build, and live-serve static sites, or add the crate to your Cargo.toml to embed the pipeline in Rust.</p>
+<div class="actions">
+<a class="primary" href="/getting-started/index.html">Full Documentation →</a>
+<a href="/api/index.html">API &amp; CLI Reference</a>
+</div>
+</div>
+<div class="terminal-box">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">bash - nucleusflow</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-comment">&#35; 1. Install standalone CLI and Rust crate (v0.0.11)</span></div>
+<div class="t-line"><span class="t-prompt">$</span>cargo install nucleusflow --locked</div>
+<div class="t-line"><span class="t-prompt">$</span>nucleusflow new docs-portal --template docs</div>
+<div class="t-line"><span class="t-comment">&#35; 2. Compile CommonMark + Handlebars with HTML5 minification</span></div>
+<div class="t-line"><span class="t-prompt">$</span>nucleusflow build --content-dir content --output-dir public --minify</div>
+<div class="t-line"><span class="t-comment">&#35; 3. Deterministic pipeline output (~28.0 µs / page)</span></div>
+<div class="t-line">{ <span class="t-key">&quot;status&quot;</span>: <span class="t-val">&quot;COMPLETED&quot;</span>, <span class="t-key">&quot;latency_us&quot;</span>: <span class="t-val">28.0</span>, <span class="t-key">&quot;unsafe_blocks&quot;</span>: <span class="t-val">0</span> }</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="privacy-panel" aria-labelledby="privacy-heading">
+<div class="wrap privacy-grid">
+<p class="lilac-label">Defense-in-Depth Security</p>
+<div>
+<h2 id="privacy-heading">Memory-safe Rust with strict input boundaries.</h2>
+<p>NucleusFlow enforces #![forbid(unsafe_code)] across every module (ADR-0001), rejects path traversal via property-tested sanitize_path (ADR-0003), sanitizes HTML against an explicit tag allowlist, and caps input budgets with zero outbound network calls.</p>
+</div>
+<a href="/security/index.html">Read Security Architecture <span aria-hidden="true">↓</span></a>
+</div>
+</section>
+
+<section class="visage-faq" id="faq" aria-labelledby="faq-heading">
+<div class="wrap faq-layout">
+<header>
+<p class="lilac-label">Clear Answers</p>
+<h2 id="faq-heading">Frequently Asked Questions</h2>
+</header>
+<div>
+<details>
+<summary>Can I use NucleusFlow as a Rust library as well as a CLI binary?</summary>
+<p>Yes. Unlike monolithic static site binaries such as Hugo or Zola, NucleusFlow is published on Crates.io as both a library crate (nucleusflow) and a standalone CLI binary. You can embed ContentProcessor, HandlebarsRenderer, HtmlGenerator, or the NucleusFlow orchestrator directly inside your Rust services.</p>
+</details>
+<details>
+<summary>Which Markdown, frontmatter, and template formats are supported?</summary>
+<p>NucleusFlow parses CommonMark plus GitHub Flavored Markdown (tables, footnotes, strikethrough) via pulldown-cmark 0.13.5, extracts YAML 1.2 frontmatter via noyalib 0.0.58, compiles Handlebars (.hbs) templates via handlebars 6.2, and minifies HTML5 via minify-html 0.18.1.</p>
+</details>
+<details>
+<summary>What is the Minimum Supported Rust Version (MSRV)?</summary>
+<p>NucleusFlow requires Rust 1.89.0 or newer (2021 Edition). This floor is enforced at compile time via Cargo.toml and build.rs and verified in CI.</p>
+</details>
+<details>
+<summary>Is NucleusFlow open source and available for commercial use?</summary>
+<p>Yes. NucleusFlow is dual-licensed under the Apache-2.0 and MIT open-source licenses, allowing commercial and open-source embedding without copyleft restrictions.</p>
+</details>
+</div>
+</div>
+</section>
+
+<section class="visage-closing" aria-labelledby="visage-close">
+<div class="wrap">
+<div>
+<p class="lilac-label">Developer Quickstart</p>
+<h2 id="visage-close">Content pipelines are core infrastructure.<br><em>Yours should be memory-safe and instant.</em></h2>
+</div>
+<div>
+<p>Get started in minutes with the Rust library crate or CLI binary across Linux, macOS, and Windows.</p>
+<a class="primary" href="/getting-started/index.html">Install NucleusFlow</a>
+</div>
+</div>
+</section>
+
+---
+
+## 1. Prerequisites &amp; Toolchain Floor
+
+NucleusFlow requires **Rust 1.89.0** or later (2021 Edition). The Minimum Supported Rust Version (MSRV) is enforced at compile time via `Cargo.toml` (`rust-version = "1.89.0"`) and `build.rs`.
+
+---
+
+## 2. Installation
+
+### As a Rust Library Dependency
+
+Add `nucleusflow` to your project's `Cargo.toml`:
+
+```toml
+[dependencies]
+nucleusflow = "0.0.11"
+```
+
+Or run `cargo add`:
+
+```bash
+cargo add nucleusflow
+```
+
+### As a Standalone Command-Line Binary
+
+Install the `nucleusflow` CLI directly from [Crates.io](https://crates.io/crates/nucleusflow):
+
+```bash
+cargo install nucleusflow --locked
+```
+
+### System Package Managers &amp; Containers
+
+NucleusFlow ships native packaging definitions across major operating systems in the upstream repository (`pkg/`):
+
+| Channel | Command / Manifest | Notes |
+| :--- | :--- | :--- |
+| **Cargo** | `cargo install nucleusflow --locked` | Builds from source with Rust 1.89.0+ |
+| **Homebrew** | `brew install pkg/brew/nucleusflow.rb` | macOS &amp; Linux formula |
+| **Nix Flakes** | `nix run github:sebastienrousseau/nucleusflow` | Reproducible flake (`pkg/nix/flake.nix`) |
+| **Arch Linux (AUR)** | `makepkg -si` in `pkg/aur/` | Builds from signed release tarball |
+| **Debian / Ubuntu** | `dpkg-buildpackage -us -uc -b` | Includes binary, manpage `nucleusflow.1`, completions |
+| **Fedora / RHEL** | `rpmbuild -ba pkg/rpm/nucleusflow.spec` | RPM spec with manpage and shell completions |
+| **GNU Make** | `make install PREFIX=/usr/local` | Installs binary, manpage, and bash/zsh/fish/pwsh completions |
+
+---
+
+## 3. CLI Quick Start
+
+### Step 1: Scaffold a New Site
+
+Create a new project directory using one of the built-in starter templates (`blog`, `docs`, or `portfolio`):
+
+```bash
+nucleusflow new my-docs --template docs
+cd my-docs
+```
+
+This creates a standard directory layout with `content/`, `templates/`, `public/`, and `nucleusflow.toml`.
+
+### Step 2: Build the Static Site
+
+Compile all Markdown files in `content/` through your Handlebars layouts in `templates/` and write minified HTML5 to `public/`:
+
+```bash
+nucleusflow build \
+  --content-dir content \
+  --output-dir public \
+  --template-dir templates \
+  --minify \
+  --config nucleusflow.toml
+```
+
+### Step 3: Preview Locally with Live Watch
+
+Start the local development server on port `3000` with automatic file watching:
+
+```bash
+nucleusflow serve --port 3000 --watch --dir public
+```
+
+---
+
+## 4. Rust Library Quick Start
+
+### End-to-End Pipeline (`NucleusFlow`)
+
+Combine `ContentProcessor`, `HandlebarsRenderer`, and `HtmlGenerator` behind the top-level `NucleusFlow` orchestrator:
+
+```rust
+use nucleusflow::{
+    ContentProcessor, HandlebarsRenderer, HtmlGenerator,
+    NucleusFlow, NucleusFlowConfig,
+};
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // 1. Configure content, output, and template directories
+    let config = NucleusFlowConfig::new("content", "public", "templates");
+
+    // 2. Configure Stage 1 (Markdown + YAML frontmatter + TOC + sanitization)
+    let content_processor = ContentProcessor::new()
+        .with_toc()
+        .with_sanitization();
+
+    // 3. Configure Stage 2 (Handlebars templates + strict variable checking)
+    let template_renderer = HandlebarsRenderer::new()
+        .with_strict_mode();
+
+    // 4. Configure Stage 3 (HTML5 tag balance check + minification)
+    let output_generator = HtmlGenerator::new()
+        .with_minification()
+        .with_asset_dir("static");
+
+    // 5. Execute the pipeline
+    let mut flow = NucleusFlow::new(
+        config,
+        content_processor,
+        template_renderer,
+        output_generator,
+    );
+    flow.process()?;
+    Ok(())
+}
+```
+
+### Standalone Markdown &amp; Frontmatter Processing
+
+You can also invoke individual pipeline stages directly without running a full directory build:
+
+```rust
+use nucleusflow::core::traits::Processor;
+use nucleusflow::processors::markdown::MarkdownProcessor;
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let processor = MarkdownProcessor::new()
+        .with_toc()
+        .with_sanitization();
+
+    let markdown = "---\ntitle: Hello NucleusFlow\n---\n\n# Welcome\n\nFast **Rust** content pipeline.";
+    let html = processor.process(markdown)?;
+    assert!(html.contains("<h1>Welcome</h1>"));
+    Ok(())
+}
+```
+
+---
+
+## 5. Next Steps
+
+* **[Supported Formats](/formats/index.html)**: Explore CommonMark + GFM extensions, YAML 1.2 frontmatter, Handlebars helpers, and TOML configuration schemas.
+* **[API &amp; CLI Reference](/api/index.html)**: Inspect every public struct, trait, error variant, and CLI flag.
+* **[Pipeline Architecture](/architecture/index.html)**: Understand how the three-stage trait pipeline and `parking_lot::RwLock` template cache work under the hood.
+
+---
+
+## Format Support Matrix
+
+NucleusFlow processes structured text and templates through strict, memory-safe Rust parsers with deterministic resource budgets:
+
+| Format Category | Specification / Syntax | Underlying Crate | Default Size Budget | Stage |
+| :--- | :--- | :--- | :--- | :--- |
+| **Markdown Content** | CommonMark + GitHub Flavored Markdown (GFM) | `pulldown-cmark` 0.13.5 | `10 MB` (`MAX_CONTENT_SIZE`) | Stage 1 (`MarkdownProcessor`) |
+| **Document Frontmatter** | YAML 1.2 (`---` fenced header block) | `noyalib` 0.0.58 | `64 KB` (`max_metadata_size`) | Stage 1 (`MarkdownProcessor`) |
+| **Layout Templates** | Handlebars (`.hbs`) with partials &amp; helpers | `handlebars` 6.2 | `1 MB` (`max_template_size`) | Stage 2 (`HandlebarsRenderer`) |
+| **Pipeline Configuration** | TOML (`nucleusflow.toml`) &amp; Env Overrides | `toml` 0.9.5 + `serde` 1.0 | `1 MB` (`MAX_CONFIG_SIZE`) | Core (`ConfigBuilder`) |
+| **Generated Markup** | HTML5 + Schema.org JSON-LD + `<meta>` tags | `minify-html` 0.18.1 | `100 MB` (`max_output_size`) | Stage 3 (`HtmlGenerator`) |
+
+---
+
+## 1. CommonMark &amp; GitHub Flavored Markdown (GFM)
+
+`MarkdownProcessor` uses `pulldown-cmark` 0.13.5 with GFM extensions enabled by default:
+
+* **GFM Tables (`ENABLE_TABLES`)**: Pipe-delimited tables with column alignment (`:---`, `:---:`, `---:`).
+* **Footnotes (`ENABLE_FOOTNOTES`)**: Inline footnote references (`[^1]`) and bottom definition blocks.
+* **Strikethrough (`ENABLE_STRIKETHROUGH`)**: Double-tilde (`~~deleted~~`) inline formatting.
+* **Automated Table of Contents (`with_toc()`)**: Extracts heading hierarchies (`h1` through `h6`), generates URL-safe slugs, and prepends a semantic `<nav class="toc"><ul>...</ul></nav>` block.
+* **HTML Allowlist Sanitization (`with_sanitization()`)**: Inspects inline HTML tags against `ALLOWED_HTML_TAGS` (`p`, `div`, `span`, `h1`..`h6`, `ul`, `ol`, `li`, `a`, `img`, `code`, `pre`, `blockquote`, `em`, `strong`, `del`, `table`, `thead`, `tbody`, `tr`, `th`, `td`, `sup`, `sub`, `br`, `hr`) and rejects suspicious patterns (`<script`, `javascript:`, `data:`, `vbscript:`, `onclick`, `onerror`, `onload`, `eval(`).
+
+---
+
+## 2. YAML 1.2 Frontmatter (`noyalib`)
+
+Every Markdown document may begin with a `---` delimited YAML 1.2 frontmatter block parsed by `noyalib` 0.0.58:
+
+```yaml
+---
+title: "Deterministic Rust Pipelines"
+author: "Sebastien Rousseau"
+date: "2026-10-31"
+description: "Guide to trait-based static site generation."
+---
+```
+
+* **Validation**: Rejects empty frontmatter blocks and malformed YAML mappings with a typed `ProcessingError::InvalidFrontmatter`.
+* **Automatic Schema.org JSON-LD Synthesis**: Valid frontmatter mappings are serialized into a `<script type="application/ld+json">` block with `@context: "https://schema.org"` and `@type: "Article"` when rendered through `MarkdownProcessor`.
+
+---
+
+## 3. Handlebars Templates (`.hbs`)
+
+`HandlebarsRenderer` (`HtmlTemplateRenderer`) compiles `.hbs` templates using `handlebars` 6.2 and caches compiled templates inside an `Arc<parking_lot::RwLock<Handlebars>>`:
+
+* **Context Variables**: Standard page fields (`title`, `description`, `content`, `author`, `date`) and custom metadata key-value pairs.
+* **Reusable Partials (`with_partial`)**: Register shared layout components such as headers, footers, and navigation menus.
+* **Custom Helpers (`with_helper` / `TemplateHelper` trait)**: Implement the `TemplateHelper` trait (`fn execute(&self, args: &[Value]) -> Result<Value, ProcessingError>`) or use the built-in `UppercaseHelper`.
+* **Strict Mode (`with_strict_mode`)**: Verifies that every `&#123;&#123;variable&#125;&#125;` referenced in the template exists in the rendering context before execution, returning `ProcessingError::TemplateDataError` if any required key is missing.
+* **Balanced Brace Verification**: Pre-validates template syntax for matching `&#123;&#123;` and `&#125;&#125;` delimiters before invoking the compiler.
+
+---
+
+## 4. HTML5 Output &amp; Minification
+
+`HtmlGenerator` (`HtmlOutputGenerator`) transforms rendered template output into production-ready HTML5 files:
+
+* **HTML5 Structural Validation**: Validates tag nesting and closing order while properly recognizing HTML5 void elements (`area`, `base`, `br`, `col`, `embed`, `hr`, `img`, `input`, `link`, `meta`, `param`, `source`, `track`, `wbr`) and optional-closing elements (`p`, `dt`, `dd`, `li`, `option`, `thead`, `th`, `tbody`, `tr`, `td`, `tfoot`, `colgroup`).
+* **Escaped `<meta>` Injection (`with_meta_tags`)**: Escapes `&`, `<`, `>`, `"`, and `'` in metadata keys and values and injects `<meta name="..." content="...">` into `<head>`.
+* **Sub-10 µs Minification (`with_minification`)**: Uses `minify-html` 0.18.1 to minify HTML, inline CSS (`minify_css: true`), and inline JavaScript (`minify_js: true`) while preserving closing tags for strict validator compatibility.
+* **Pretty-Printing (`without_minification`)**: Indents nested HTML elements cleanly for local debugging and snapshot inspection.
+
+---
+
+## 5. Multi-Environment Configuration (`nucleusflow.toml`)
+
+`ConfigBuilder` loads TOML configuration files, validates numerical bounds, and optionally applies environment variable overrides:
+
+```toml
+profile = "production"
+
+[content]
+max_content_size = 10485760
+max_metadata_size = 65536
+allowed_extensions = ["md", "markdown"]
+validate_markdown = true
+allow_html = false
+
+[templates]
+max_template_size = 1048576
+cache_ttl = 3600
+max_cache_size = 104857600
+allowed_extensions = ["hbs", "handlebars"]
+
+[output]
+max_output_size = 104857600
+file_permissions = 0o644
+create_Backup = false
+max_concurrent_ops = 10
+
+[custom]
+site_url = "https://nucleusflow.com"
+```
+
+---
+
+## 1. Crate Overview &amp; Re-Exports (`nucleusflow`)
+
+The root `nucleusflow` module re-exports the primary pipeline types so applications can import them directly from `nucleusflow::*`:
+
+| Symbol | Module Path | Description |
+| :--- | :--- | :--- |
+| `NucleusFlow` | `nucleusflow::NucleusFlow` | Top-level pipeline orchestrator connecting content processing, template rendering, and HTML generation |
+| `NucleusFlowConfig` | `nucleusflow::NucleusFlowConfig` | Directory configuration (`content_dir`, `output_dir`, `template_dir`) for `NucleusFlow` |
+| `ContentProcessor` | `nucleusflow::processors::markdown::MarkdownProcessor` | Stage 1 CommonMark + GFM + YAML 1.2 frontmatter processor |
+| `HandlebarsRenderer` | `nucleusflow::template::HtmlTemplateRenderer` | Stage 2 thread-safe cached Handlebars template renderer |
+| `HtmlGenerator` | `nucleusflow::generators::html::HtmlOutputGenerator` | Stage 3 HTML5 validator, `<meta>` injector, and minifier |
+| `FileContentProcessor` | `nucleusflow::process::FileContentProcessor` | File-oriented content processor with path sanitization and extension checks |
+| `TemplateRenderer` | `nucleusflow::template::TemplateRenderer` | Trait for rendering named templates with JSON context values |
+| `ConfigBuilder` | `nucleusflow::core::config::ConfigBuilder` | Builder for multi-profile TOML and environment configuration |
+| `ProcessingError` | `nucleusflow::core::error::ProcessingError` | Unified error enum for all pipeline stages |
+
+Full generated Rustdoc is available on [docs.rs/nucleusflow](https://docs.rs/nucleusflow).
+
+---
+
+## 2. Stage 1: Content Processing (`nucleusflow::processors::markdown`)
+
+### `MarkdownProcessor` (re-exported as `ContentProcessor`)
+
+```rust
+use nucleusflow::ContentProcessor;
+use nucleusflow::core::traits::Processor;
+
+let processor = ContentProcessor::new()
+    .with_toc()
+    .with_sanitization()
+    .with_custom_Metadata("site_name".to_string(), "NucleusFlow".to_string());
+
+let html = processor.process("# Heading\n\nParagraph text.")?;
+```
+
+| Method | Signature | Behavior |
+| :--- | :--- | :--- |
+| `new()` | `pub fn new() -> Self` | Creates a processor with GFM tables, footnotes, and strikethrough enabled |
+| `with_toc()` | `pub fn with_toc(self) -> Self` | Enables automatic `<nav class="toc">` generation from document headings |
+| `with_sanitization()` | `pub fn with_sanitization(self) -> Self` | Enables HTML tag allowlist (`ALLOWED_HTML_TAGS`) and XSS pattern blocking |
+| `with_options(opts)` | `pub fn with_options(self, options: Options) -> Self` | Customizes `pulldown_cmark::Options` bitflags |
+| `with_custom_Metadata(k, v)` | `pub fn with_custom_Metadata(self, key: String, value: String) -> Self` | Attaches custom metadata key-value pairs |
+| `process(&self, input)` | `fn process(&self, input: &str) -> Result<String, ProcessingError>` | Validates size (`<= 10 MB`), extracts YAML frontmatter, renders Markdown, and sanitizes output |
+
+---
+
+## 3. Stage 2: Template Rendering (`nucleusflow::template`)
+
+### `HtmlTemplateRenderer` (re-exported as `HandlebarsRenderer`)
+
+```rust
+use nucleusflow:: {HandlebarsRenderer, TemplateRenderer};
+use nucleusflow::template::UppercaseHelper;
+use serde_json::json;
+
+let renderer = HandlebarsRenderer::new()
+    .with_template_dir("templates")
+    .with_strict_mode()
+    .with_helper("upper".to_string(), Box::new(UppercaseHelper));
+
+renderer.load_templates()?;
+let rendered = renderer.render("page", &json!({ "title": "API Guide" }))?;
+```
+
+| Method | Signature | Behavior |
+| :--- | :--- | :--- |
+| `new()` | `pub fn new() -> Self` | Initializes an `Arc<RwLock<Handlebars>>` registry with `UppercaseHelper` registered |
+| `with_template_dir(dir)` | `pub fn with_template_dir<P: Into<PathBuf>>(self, dir: P) -> Self` | Sets the directory used by `load_templates()` to scan `.hbs` files |
+| `with_partial(name, content)` | `pub fn with_partial(self, name: String, content: String) -> Result<Self, ProcessingError>` | Validates and registers a named Handlebars partial |
+| `with_helper(name, helper)` | `pub fn with_helper(self, name: String, helper: Box<dyn TemplateHelper>) -> Self` | Registers a custom `TemplateHelper` implementation |
+| `with_strict_mode()` | `pub fn with_strict_mode(self) -> Self` | Requires all referenced template variables to exist in the context JSON |
+| `load_templates(&self)` | `pub fn load_templates(&self) -> Result<(), ProcessingError>` | Recursively loads all `.hbs` files from `template_dir` into the cache |
+| `register_template(&mut self, name, tpl)` | `fn register_template(&mut self, name: &str, template: &str) -> Result<(), ProcessingError>` | Validates brace balance and compiles a template into the registry |
+| `render(&self, name, data)` | `fn render(&self, template_name: &str, data: &Value) -> Result<String, ProcessingError>` | Renders a cached template with a `serde_json::Value` context |
+
+---
+
+## 4. Stage 3: Output Generation (`nucleusflow::generators::html`)
+
+### `HtmlOutputGenerator` (re-exported as `HtmlGenerator`)
+
+```rust
+use std::collections::HashMap;
+use nucleusflow::HtmlGenerator;
+use nucleusflow::core::traits::Generator;
+
+let mut meta = HashMap::new();
+meta.insert("author".to_string(), "Sebastien Rousseau".to_string());
+
+let generator = HtmlGenerator::new()
+    .with_minification()
+    .with_meta_tags(meta)
+    .with_asset_dir("static");
+
+let output = generator.generate("<!DOCTYPE html><html><head></head><body><h1>Hi</h1></body></html>")?;
+```
+
+| Method | Signature | Behavior |
+| :--- | :--- | :--- |
+| `new()` | `pub fn new() -> Self` | Creates an HTML5 generator with minification enabled by default |
+| `with_minification()` | `pub fn with_minification(self) -> Self` | Enables `minify-html` (HTML, CSS, and JS minification) |
+| `without_minification()` | `pub fn without_minification(self) -> Self` | Disables minification and enables indented pretty-printing |
+| `with_asset_dir(dir)` | `pub fn with_asset_dir<P: Into<PathBuf>>(self, dir: P) -> Self` | Sets the static asset directory and loads assets into the in-memory cache |
+| `with_meta_tags(tags)` | `pub fn with_meta_tags(self, tags: HashMap<String, String>) -> Self` | Injects HTML-escaped `<meta>` tags into `<head>` |
+| `copy_assets_to(dir)` | `pub fn copy_assets_to<P: AsRef<Path>>(&self, output_dir: P) -> Result<(), ProcessingError>` | Writes cached static assets to `output_dir`, rejecting `..` path traversal |
+| `generate(&self, content)` | `fn generate(&self, content: &str) -> Result<String, ProcessingError>` | Validates HTML5 tag balance, injects `<meta>` tags, and minifies or formats |
+
+---
+
+## 5. Configuration &amp; Core Traits (`nucleusflow::core`)
+
+### `ConfigBuilder` &amp; `Profile`
+
+```rust
+use std::time::Duration;
+use nucleusflow::core::config::{ConfigBuilder, Profile};
+
+let config = ConfigBuilder::new(Profile::Production)
+    .with_file("nucleusflow.toml")?
+    .with_env_prefix("NUCLEUSFLOW")?
+    .with_auto_reload(true)
+    .with_reload_interval(Duration::from_secs(30))
+    .with_max_file_size(512 * 1024)
+    .build()?;
+```
+
+### Core Traits (`nucleusflow::core::traits`)
+
+* **`Processor`**: `fn process(&self, input: &str) -> Result<String, ProcessingError>` and `fn validate(&self, input: &str) -> Result<(), ProcessingError>`.
+* **`Transform`**: `fn transform(&self, input: &str) -> Result<String, ProcessingError>` and `fn can_transform(&self, input_type: &str) -> bool`.
+* **`Generator`**: `fn generate(&self, content: &str) -> Result<String, ProcessingError>` and `fn supported_formats(&self) -> Vec<&str>`.
+* **`Validator`**: `fn validate(&self, content: &str, rules: &[ValidationRule]) -> Result<(), ProcessingError>`.
+* **`ProcessingContext`**: `get_metadata(&self, key: &str)`, `set_metadata(&mut self, key: String, value: String)`, `get_options(&self) -> &ProcessingOptions`.
+* **`Shareable`**: Blanket trait providing `.into_shared()` (`Arc<RwLock<Self>>`) for any `Send + Sync + 'static` component.
+
+### `ProcessingError` Variants (`nucleusflow::core::error`)
+
+| Variant | Trigger Condition |
+| :--- | :--- |
+| `MarkdownError(String)` | Empty input, content exceeding `10 MB`, or Markdown parse failure |
+| `InvalidFrontmatter(String)` | Empty frontmatter or invalid YAML 1.2 syntax |
+| `HtmlSanitizationError(String)` | Disallowed HTML tag or suspicious XSS attribute/URI pattern |
+| `TemplateSyntaxError(String)` | Unbalanced `&#123;&#123;` / `&#125;&#125;` braces or invalid Handlebars syntax |
+| `TemplateRenderError(String)` | Missing template name or Handlebars evaluation error |
+| `TemplateDataError(String)` | Missing required variable in strict mode or non-object context |
+| `InvalidHtmlError(String)` | Mismatched closing HTML tag or unclosed non-void element |
+| `ConfigValidationError(String)` | Configuration file exceeding `1 MB` or out-of-range budget parameter |
+| `EnvVarError(String)` | Disallowed environment variable name (`PATH`, `HOME`, `USER`, `SHELL`) |
+| `AssetCopyError(String)` | Path traversal attempt (`..`) or missing asset source directory |
+
+---
+
+## 6. CLI Reference (`nucleusflow`)
+
+```text
+nucleusflow [SUBCOMMAND] [OPTIONS]
+```
+
+| Subcommand | Flags &amp; Arguments | Defaults | Description |
+| :--- | :--- | :--- | :--- |
+| `new <name>` | `-t, --template <template>` | `blog` (`blog`, `docs`, `portfolio`) | Scaffolds a new NucleusFlow project directory |
+| `build` | `-c, --content-dir <DIR>`<br>`-o, --output-dir <DIR>`<br>`-t, --template-dir <DIR>`<br>`-m, --minify`<br>`--config <FILE>` | `content`<br>`public`<br>`templates`<br>`false`<br>`nucleusflow.toml` | Compiles Markdown content and Handlebars templates into static HTML |
+| `serve` | `-p, --port <PORT>`<br>`-w, --watch`<br>`-d, --dir <DIR>` | `3000`<br>`false`<br>`public` | Serves the generated static directory locally with optional live watching |
+
+---
+
+## 1. End-to-End Execution Flow
+
+NucleusFlow decouples static site generation into three composable stages coordinated by `NucleusFlow`:
+
+```text
++-------------------------------------------------------------------------+
+|                        Configuration & CLI Layer                        |
+|   ConfigBuilder (nucleusflow.toml + NUCLEUSFLOW_* env) / clap 4.5 CLI   |
++------------------------------------+------------------------------------+
+                                     |
+                                     v
++-------------------------------------------------------------------------+
+|                    Stage 1: ContentProcessor (Processor)                |
+|  1. Enforce 10 MB input cap & path traversal sanitization               |
+|  2. Extract YAML 1.2 frontmatter (noyalib 0.0.58)                       |
+|  3. Parse CommonMark + GFM tables/footnotes (pulldown-cmark 0.13.5)     |
+|  4. Synthesize <nav class="toc"> & Schema.org JSON-LD metadata          |
+|  5. Enforce ALLOWED_HTML_TAGS & block XSS attribute/URI patterns        |
++------------------------------------+------------------------------------+
+                                     |
+                                     v
++-------------------------------------------------------------------------+
+|                 Stage 2: HandlebarsRenderer (TemplateRenderer)          |
+|  1. Validate balanced braces & strict-mode context variables            |
+|  2. Read compiled .hbs templates from Arc<parking_lot::RwLock<...>>     |
+|  3. Evaluate partials and custom TemplateHelper implementations         |
++------------------------------------+------------------------------------+
+                                     |
+                                     v
++-------------------------------------------------------------------------+
+|                     Stage 3: HtmlGenerator (Generator)                  |
+|  1. Verify HTML5 structural tag balance (void & optional-close aware)   |
+|  2. Inject HTML-escaped <meta> tags into <head>                         |
+|  3. Minify HTML/CSS/JS (minify-html 0.18.1) or pretty-print             |
+|  4. Copy cached static assets & write output files (0o644 permissions)  |
++-------------------------------------------------------------------------+
+```
+
+---
+
+## 2. Crate Module Layout
+
+The `nucleusflow` workspace is organized into focused modules with strict complexity ceilings (`<= 10` cyclomatic complexity, `<= 15` cognitive complexity per function):
+
+| Source File | Responsibility |
+| :--- | :--- |
+| `src/lib.rs` | Top-level `NucleusFlow` orchestrator, `NucleusFlowConfig`, crate-level `#![forbid(unsafe_code)]`, and public re-exports |
+| `src/main.rs` | Binary entrypoint initializing structured logging (`dtt` + `log`) and dispatching CLI subcommands |
+| `src/cli.rs` | Declarative `clap` 4.5 command-line parser (`new`, `build`, `serve`) and argument validation |
+| `src/core/config.rs` | `Config`, `ConfigBuilder`, `Profile`, `ContentConfig`, `TemplateConfig`, `OutputConfig`, and safe environment variable merging |
+| `src/core/traits.rs` | Core abstraction traits (`Processor`, `Transform`, `Generator`, `Validator`, `ProcessingContext`, `Shareable`) |
+| `src/core/error.rs` | Structured `ProcessingError` enum (`thiserror` 2.0) covering all validation, parsing, template, and I/O failures |
+| `src/process.rs` | `FileContentProcessor` with path sanitization (`sanitize_path`), file extension allowlists, and `ProcessError` |
+| `src/processors/markdown.rs` | `MarkdownProcessor` implementing CommonMark + GFM parsing, YAML frontmatter extraction, TOC generation, and HTML sanitization |
+| `src/template.rs` | `HtmlTemplateRenderer` wrapping `handlebars::Handlebars` in `Arc<parking_lot::RwLock<...>>`, partial management, and `UppercaseHelper` |
+| `src/generators/html.rs` | `HtmlOutputGenerator` implementing HTML5 tag balance verification, `<meta>` injection, `minify-html` integration, and asset caching |
+
+---
+
+## 3. Concurrency &amp; `parking_lot::RwLock` Caching
+
+Static site builds are heavily read-biased: templates and configuration are compiled once at startup and read concurrently across hundreds or thousands of content pages.
+
+* **Zero Poisoning Overhead**: NucleusFlow uses `parking_lot::RwLock` (`0.13`) rather than `std::sync::RwLock`, avoiding lock poisoning overhead and providing compact, fast uncontended read locks.
+* **Blanket `Shareable` Trait**: Every component implementing `Send + Sync + 'static` automatically gains `.into_shared()`, wrapping the instance in `Arc<RwLock<Self>>` for multi-threaded pipeline execution.
+* **Async Runtime Compatibility**: `ConfigBuilder` supports asynchronous reload tasks on `tokio` (`1.47`) while keeping the core parsing and rendering path synchronous and allocation-lean.
+
+---
+
+## 4. Architectural Decision Records (ADRs)
+
+All load-bearing architectural invariants in the `nucleusflow` repository are documented under `docs/adr/`:
+
+| ADR | Title | Status | Core Invariant |
+| :--- | :--- | :--- | :--- |
+| **ADR-0001** | Zero Unsafe Rust Policy | Accepted | Enforces `#![forbid(unsafe_code)]` at the crate roots (`src/lib.rs` and `src/main.rs`) and audits dependencies via `cargo-deny`. |
+| **ADR-0002** | Deterministic Rendering Pipeline | Accepted | Separates content parsing, template evaluation, and HTML generation behind deterministic traits synchronized with `parking_lot::RwLock`. |
+| **ADR-0003** | Path Traversal Rejection | Accepted | Rejects `..`, null bytes, and leading slashes in `sanitize_path` before any filesystem read or write, verified by `proptest` fuzzing. |
+
+---
+
+## 1. Benchmark Methodology &amp; Hardware Baseline
+
+All performance numbers reported for NucleusFlow are measured using [Criterion.rs](https://github.com/bheisler/criterion.rs) (`criterion = "0.8"`) in `/benches/processing_benchmark.rs` and can be reproduced locally on any machine.
+
+* **Hardware**: Apple Silicon (M4, macOS)
+* **Toolchain**: `rustc 1.89.0` (2021 Edition), `--release` profile (`opt-level = 3`, `lto = true`, `codegen-units = 1`)
+* **Harness**: `cargo bench --bench processing_benchmark`
+
+---
+
+## 2. Stage-by-Stage Micro-Benchmarks
+
+| Benchmark Suite | Operation | Median Time | Throughput Equivalent |
+| :--- | :--- | :--- | :--- |
+| `markdown_processing` | Parse CommonMark + GFM + extract YAML 1.2 frontmatter | **`~4.2 µs`** | ~238,000 docs / sec (single core) |
+| `template_rendering` | Evaluate compiled Handlebars layout with nested partials | **`~12.5 µs`** | ~80,000 renders / sec (single core) |
+| `html_minification` | Validate HTML5 tags &amp; collapse whitespace (`minify-html`) | **`~8.1 µs`** | ~123,000 pages / sec (single core) |
+| `single_page_pipeline` | End-to-end read, parse, render, minify, and write | **`~28.0 µs`** | ~35,700 pages / sec (single core) |
+
+At `~28.0 µs` per page on a single thread, a 1,000-page documentation portal processes through the entire Markdown, Handlebars, and HTML5 minification pipeline in **~28 milliseconds**.
+
+---
+
+## 3. Ecosystem Comparison
+
+How NucleusFlow compares against established static site generators and content engines:
+
+| Feature / Dimension | **NucleusFlow (`v0.0.11`)** | **Zola** | **Hugo** | **Eleventy (11ty)** |
+| :--- | :--- | :--- | :--- | :--- |
+| **Implementation Language** | Rust (`1.89.0+`) | Rust | Go | JavaScript (Node.js) |
+| **Memory Safety Guarantee** | `#![forbid(unsafe_code)]` | Standard Rust | Go GC | V8 GC |
+| **Usage Model** | **Library Crate + CLI Binary** | CLI Binary only | CLI Binary only | Node CLI / NPM package |
+| **Template Engine** | Handlebars (`.hbs`) | Tera (`.html`) | Go `html/template` | Liquid / Nunjucks / Hbs |
+| **Frontmatter Parser** | YAML 1.2 (`noyalib`) | TOML (`+++`) / YAML | YAML / TOML / JSON | YAML / JSON / JS |
+| **Built-in HTML Sanitizer** | Yes (`ALLOWED_HTML_TAGS` + XSS filter) | No | Partial | Via external plugins |
+| **Built-in HTML5 Minifier** | Yes (`minify-html` in `~8.1 µs`) | Yes | Yes | Via external plugins |
+| **Bounded DoS Budgets** | Explicit content, template &amp; cache caps | Unbounded | Unbounded | Unbounded |
+
+---
+
+## 4. Reproducing Benchmarks Locally
+
+Clone the core library repository and run the Criterion benchmark suite:
+
+```bash
+git clone https://github.com/sebastienrousseau/nucleusflow.git
+cd nucleusflow
+cargo bench --bench processing_benchmark
+```
+
+HTML latency distribution plots and regression comparisons are written automatically to `target/criterion/report/index.html`.
+
+---
+
+## 1. Technical Documentation Portals &amp; Developer Hubs
+
+Engineering organizations use the `nucleusflow` CLI (`--template docs`) to compile multi-version product manuals, ADR catalogs, and API guides with zero runtime JavaScript dependencies.
+
+* **Automated Table of Contents (`with_toc`)**: Every documentation page automatically receives a semantic `<nav class="toc">` anchor tree derived from `h1`..`h6` headings.
+* **Schema.org JSON-LD Structured Data**: YAML 1.2 frontmatter fields are automatically emitted as `<script type="application/ld+json">` metadata for search engine and LLM indexing.
+* **Sub-30 µs Page Compilation**: Rebuild hundreds of documentation pages in milliseconds during local `nucleusflow serve --watch` editing sessions.
+
+---
+
+## 2. Embedded Content Pipelines in Rust Web Services
+
+Because NucleusFlow is architected as a library crate (`nucleusflow = "0.0.11"`) first and a CLI second, Rust web servers (Axum, Actix-Web, Tower) can embed `ContentProcessor`, `HandlebarsRenderer`, and `HtmlGenerator` directly in-process:
+
+```rust
+use std::sync::Arc;
+use parking_lot::RwLock;
+use nucleusflow::{ContentProcessor, HandlebarsRenderer, HtmlGenerator};
+use nucleusflow::core::traits::Shareable;
+
+pub struct ContentEngine {
+    pub processor: Arc<RwLock<ContentProcessor>>,
+    pub renderer: Arc<RwLock<HandlebarsRenderer>>,
+    pub generator: Arc<RwLock<HtmlGenerator>>,
+}
+
+impl ContentEngine {
+    pub fn new() -> Self {
+        Self {
+            processor: ContentProcessor::new().with_toc().with_sanitization().into_shared(),
+            renderer: HandlebarsRenderer::new().with_strict_mode().into_shared(),
+            generator: HtmlGenerator::new().with_minification().into_shared(),
+        }
+    }
+}
+```
+
+---
+
+## 3. Sanitized User-Submitted Markdown Rendering
+
+Platforms that accept Markdown from external contributors, webhooks, or CMS editors require strict protection against Cross-Site Scripting (XSS) and resource exhaustion:
+
+* **Explicit Tag Allowlist**: `ContentProcessor::new().with_sanitization()` restricts inline HTML to `ALLOWED_HTML_TAGS` (`p`, `div`, `span`, `h1`..`h6`, `ul`, `ol`, `li`, `a`, `img`, `code`, `pre`, `blockquote`, `em`, `strong`, `del`, `table`, `thead`, `tbody`, `tr`, `th`, `td`, `sup`, `sub`, `br`, `hr`).
+* **Active Pattern Blocking**: Rejects `javascript:`, `data:`, `vbscript:`, inline event handlers (`onclick`, `onerror`, `onload`), and `eval(` expressions with `ProcessingError::HtmlSanitizationError`.
+* **10 MB Input Ceiling**: Prevents denial-of-service memory spikes before invoking the parser.
+
+---
+
+## 4. High-Speed CI/CD Static Publishing &amp; Changelogs
+
+Run `nucleusflow build --minify` inside ephemeral CI runners or distroless containers to compile release notes, security advisories, and compliance reports into static HTML5 artifacts with `0o644` permissions and verified tag balance.
+
+---
+
+## 1. Crate-Wide `#![forbid(unsafe_code)]` (ADR-0001)
+
+Both `src/lib.rs` and `src/main.rs` declare `#![forbid(unsafe_code)]` at the crate root. Any attempt to introduce an `unsafe` block fails compilation immediately. Combined with `cargo-deny` and `cargo-audit` in CI, NucleusFlow eliminates buffer overflows, use-after-free bugs, and undefined memory behavior across its content processing pipeline.
+
+---
+
+## 2. Path Traversal Prevention (ADR-0003)
+
+Static site generators read content files, templates, and static assets from disk and mirror directory structures into output trees. NucleusFlow enforces strict path validation at every I/O boundary:
+
+* **`FileContentProcessor` (`sanitize_path`)**: Rejects any path containing `..` parent traversal segments, null bytes (`\0`), or leading `/` root escapes before opening a file, returning `ProcessError::InvalidInput`.
+* **`HtmlGenerator::copy_assets_to`**: Verifies that every cached relative asset path contains no `..` components before creating subdirectories or writing output files.
+* **Property-Based Fuzzing (`proptest 1.6`)**: Path sanitization invariants are continuously fuzz-tested against arbitrary string inputs in the test suite.
+
+---
+
+## 3. HTML Allowlist Sanitization &amp; XSS Prevention
+
+When `ContentProcessor::new().with_sanitization()` is active, `MarkdownProcessor` enforces a two-layer filter on rendered HTML:
+
+1. **Tag Allowlist (`ALLOWED_HTML_TAGS`)**: Only permits `p`, `div`, `span`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `ul`, `ol`, `li`, `a`, `img`, `code`, `pre`, `blockquote`, `em`, `strong`, `del`, `table`, `thead`, `tbody`, `tr`, `th`, `td`, `sup`, `sub`, `br`, and `hr`. Any unapproved tag (such as `<script>`, `<iframe>`, `<object>`, `<embed>`, `<form>`, or `<style>`) triggers `ProcessingError::HtmlSanitizationError`.
+2. **Suspicious Pattern Blocker**: Scans for `javascript:`, `data:`, `vbscript:`, `onclick`, `onerror`, `onload`, and `eval(`, blocking dangerous URI schemes and inline event handlers.
+3. **Escaped `<meta>` Injection**: `HtmlGenerator` escapes `&`, `<`, `>`, `"`, and `'` in all `<meta>` tag names and values before inserting them into `<head>`.
+
+---
+
+## 4. Deterministic Denial-of-Service (DoS) Budgets
+
+Every stage enforces explicit upper bounds so untrusted or malformed files cannot exhaust process memory:
+
+| Resource Budget | Default Limit | Enforced By |
+| :--- | :--- | :--- |
+| **Markdown Content Size** | `10 MB` (`10,485,760` bytes) | `MarkdownProcessor::MAX_CONTENT_SIZE` &amp; `ContentConfig` |
+| **Frontmatter Metadata Size** | `64 KB` (`65,536` bytes) | `ContentConfig::max_metadata_size` |
+| **Template File Size** | `1 MB` (`1,048,576` bytes) | `TemplateConfig::max_template_size` |
+| **Template Cache Memory** | `100 MB` (`104,857,600` bytes) | `TemplateConfig::max_cache_size` |
+| **Configuration File Size** | `1 MB` (`1,048,576` bytes) | `ConfigBuilder::MAX_CONFIG_SIZE` |
+| **Generated Output Size** | `100 MB` (`104,857,600` bytes) | `OutputConfig::max_output_size` |
+| **Environment Variable Filter** | Blocks `PATH`, `HOME`, `USER`, `SHELL` | `ConfigBuilder::is_safe_env_var` |
+
+---
+
+## 5. Vulnerability Disclosure Policy (RFC 9116)
+
+Report suspected vulnerabilities privately via [GitHub Security Advisories](https://github.com/sebastienrousseau/nucleusflow/security/advisories/new) or by email to `sebastian.rousseau@gmail.com`. Machine-readable disclosure metadata is published at [`/.well-known/security.txt`](/.well-known/security.txt). Initial acknowledgement is provided within **48 hours**.
+
+---
+
+<div class="faq-container">
+<div class="faq-search-box">
+<span class="faq-search-icon" aria-hidden="true"></span>
+<input type="search" class="faq-search-input" id="faqSearchInput" placeholder="Filter questions by keyword (e.g. Handlebars, YAML, MSRV, Sanitization, CLI)..." aria-label="Search frequently asked questions" />
+</div>
+
+<div class="faq-filter-pills" role="tablist" aria-label="FAQ Categories">
+<button class="faq-pill active" data-filter="all" type="button">All Questions <span class="pill-count">8</span></button>
+<button class="faq-pill" data-filter="architecture" type="button">Architecture &amp; API <span class="pill-count">3</span></button>
+<button class="faq-pill" data-filter="formats" type="button">Formats &amp; Templates <span class="pill-count">3</span></button>
+<button class="faq-pill" data-filter="security" type="button">Security &amp; Licensing <span class="pill-count">2</span></button>
+</div>
+
+<div class="faq-action-bar">
+<span class="faq-count-label" id="faqCountLabel">Showing 8 of 8 questions</span>
+<button type="button" class="faq-toggle-all-btn" id="faqToggleAllBtn" aria-expanded="false">
+<span class="btn-text">Expand all</span>
+<span class="chevron" aria-hidden="true"></span>
+</button>
+</div>
+
+<div class="faq-list" id="faqList">
+<details class="faq-card" data-category="architecture">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Architecture</span>
+<span class="faq-question">Can I use NucleusFlow as a Rust library inside my own application, or is it only a CLI?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>Both. Unlike monolithic static site binaries such as Hugo or Zola, NucleusFlow is published on Crates.io as both a library crate (<code>nucleusflow</code>) and a CLI binary. You can import <code>ContentProcessor</code>, <code>HandlebarsRenderer</code>, <code>HtmlGenerator</code>, or the top-level <code>NucleusFlow</code> orchestrator directly into your Rust services.</p>
+</div>
+</details>
+
+<details class="faq-card" data-category="architecture">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Toolchain</span>
+<span class="faq-question">What is the Minimum Supported Rust Version (MSRV)?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>NucleusFlow requires <strong>Rust 1.89.0</strong> or newer (2021 Edition). This floor is verified in CI and enforced at build time by <code>Cargo.toml</code> and <code>build.rs</code>.</p>
+</div>
+</details>
+
+<details class="faq-card" data-category="architecture">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Concurrency</span>
+<span class="faq-question">Is NucleusFlow thread-safe for concurrent rendering?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>Yes. Every core stage implements <code>Send + Sync</code> and the blanket <code>Shareable</code> trait (<code>.into_shared()</code>), wrapping instances in <code>Arc&lt;parking_lot::RwLock&lt;Self&gt;&gt;</code> so compiled Handlebars templates and assets can be shared safely across worker threads.</p>
+</div>
+</details>
+
+<details class="faq-card" data-category="formats">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Markdown</span>
+<span class="faq-question">Which Markdown extensions and frontmatter formats are supported?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p><code>MarkdownProcessor</code> parses CommonMark plus GitHub Flavored Markdown (GFM tables, footnotes, and strikethrough) via <code>pulldown-cmark</code> 0.13.5, and extracts <code>---</code> fenced YAML 1.2 frontmatter via <code>noyalib</code> 0.0.58.</p>
+</div>
+</details>
+
+<details class="faq-card" data-category="formats">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Templating</span>
+<span class="faq-question">Why does NucleusFlow use Handlebars (.hbs) templates?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>Handlebars enforces logic-less templates with clear separation between presentation layouts and Rust business logic, while supporting partials, custom <code>TemplateHelper</code> functions, and strict variable checking via the battle-tested <code>handlebars</code> 6.2 crate.</p>
+</div>
+</details>
+
+<details class="faq-card" data-category="formats">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">HTML5</span>
+<span class="faq-question">Does NucleusFlow validate and minify HTML5 output automatically?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>Yes. <code>HtmlGenerator</code> verifies structural HTML5 tag balance (accounting for void elements like <code>img</code> and <code>meta</code> as well as optional-closing elements like <code>p</code> and <code>li</code>) and minifies HTML, inline CSS, and inline JS in <code>~8.1 µs</code> using <code>minify-html</code> 0.18.1.</p>
+</div>
+</details>
+
+<details class="faq-card" data-category="security">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Safety</span>
+<span class="faq-question">Does NucleusFlow contain any unsafe Rust code?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>No. Both the library crate and CLI binary enforce <code>#![forbid(unsafe_code)]</code> at the crate root per ADR-0001.</p>
+</div>
+</details>
+
+<details class="faq-card" data-category="security">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Licensing</span>
+<span class="faq-question">How is NucleusFlow licensed?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>NucleusFlow and its documentation are dual-licensed under your choice of the <strong>Apache License, Version 2.0</strong> (<code>LICENSE-APACHE</code>) or the <strong>MIT License</strong> (<code>LICENSE-MIT</code>).</p>
+</div>
+</details>
+</div>
+
+<div class="faq-no-results" id="faqNoResults" role="status" aria-live="polite">
+<div class="faq-no-results-icon" aria-hidden="true"></div>
+<h2>No matching questions found</h2>
+<p>Try searching for broader terms such as &ldquo;Handlebars&rdquo;, &ldquo;YAML&rdquo;, &ldquo;MSRV&rdquo;, or &ldquo;CLI&rdquo;.</p>
+<button type="button" class="faq-reset-btn" id="faqResetBtn">Reset search &amp; filters</button>
+</div>
+
+<div class="faq-help-card">
+<div class="faq-help-icon" aria-hidden="true"></div>
+<div class="faq-help-content">
+<h2>Have a question not listed here?</h2>
+<p>Explore the documentation guides, open an issue on GitHub, or contact the maintainer directly.</p>
+<div class="faq-help-actions">
+<a href="/getting-started/index.html" class="primary">Getting Started Guide</a>
+<a href="https://github.com/sebastienrousseau/nucleusflow/issues" class="secondary" target="_blank" rel="noopener">GitHub Issues</a>
+<a href="/contact/index.html" class="secondary">Contact Support</a>
+</div>
+</div>
+</div>
+</div>
+
+---
+
+## 1. Mission &amp; Design Philosophy
+
+**NucleusFlow** (`nucleusflow`) was created to bridge the gap between monolithic static site generator binaries and low-level Markdown parsers. Engineering teams frequently need the same reliable content processing pipeline in two places: on the command line for static documentation builds, and inside Rust backend services for dynamic rendering and validation.
+
+NucleusFlow is guided by four core engineering invariants:
+
+1. **Zero Unsafe Code (`#![forbid(unsafe_code)]`)**: Memory safety is non-negotiable when parsing untrusted Markdown, YAML frontmatter, and HTML templates.
+2. **Composable Trait Boundaries**: Content processing (`Processor`), template rendering (`TemplateRenderer`), and output generation (`Generator`) are cleanly separated so any stage can be swapped, mocked, or embedded independently.
+3. **Deterministic Resource Budgets**: Every stage enforces explicit byte caps (`10 MB` content, `64 KB` metadata, `1 MB` template, `100 MB` cache) to guarantee predictable latency (`~28.0 µs` per page).
+4. **Zero Telemetry**: Neither the `nucleusflow` library/CLI nor the `nucleusflow.com` documentation portal makes outbound analytics, telemetry, or tracking requests.
+
+---
+
+## 2. Ecosystem Synergy
+
+NucleusFlow builds upon and integrates with open-source Rust crates maintained by [Sebastien Rousseau](https://sebastienrousseau.com/):
+
+* **[noyalib](https://crates.io/crates/noyalib)**: Pure-Rust, memory-safe YAML 1.2 parser powering NucleusFlow's frontmatter extraction.
+* **[dtt](https://crates.io/crates/dtt)**: Date, time, and timezone utilities for structured build timestamps.
+* **[ssg](https://static-site-generator.com/)**: The Static Site Generator compiling this documentation portal (`nucleusflow.com`).
+* **[Skeletonic CSS](https://skeletonic.com/)**: Lightweight, WCAG 2.2 Level AAA CSS layout foundation.
+
+---
+
+## 3. Governance &amp; Maintainer
+
+NucleusFlow is authored and maintained by **[Sebastien Rousseau](https://sebastienrousseau.com/)** in London, United Kingdom. All architectural changes, releases, and security advisories are managed transparently on GitHub:
+
+* **Core Rust Library &amp; CLI**: [github.com/sebastienrousseau/nucleusflow](https://github.com/sebastienrousseau/nucleusflow)
+* **Documentation Portal**: [github.com/sebastienrousseau/nucleusflow.github.io](https://github.com/sebastienrousseau/nucleusflow.github.io)
+* **Crates.io Package**: [crates.io/crates/nucleusflow](https://crates.io/crates/nucleusflow)
+* **API Documentation**: [docs.rs/nucleusflow](https://docs.rs/nucleusflow)
+
+---
+
+## Core Library &amp; CLI (`nucleusflow` Crate)
+
+### `v0.0.11` (2026-10-30)
+
+* **Full Pipeline Orchestration**: Connected `NucleusFlow::process()` end-to-end across `ContentProcessor`, `HandlebarsRenderer`, and `HtmlGenerator` with CLI `new`, `build`, and `serve` execution.
+* **Dependency &amp; MSRV Modernization**: Raised MSRV to **Rust 1.89.0**, migrated YAML frontmatter parsing to `noyalib 0.0.58`, and upgraded `clap` (`4.5`), `handlebars` (`6.2`), `pulldown-cmark` (`0.13.5`), `minify-html` (`0.18.1`), `toml` (`0.9.5`), `thiserror` (`2.0`), and `criterion` (`0.8`).
+* **Architectural &amp; Packaging Suite**: Added `docs/ARCHITECTURE.md`, `docs/BENCHMARKS.md`, `docs/COMPARISON.md`, `docs/MIGRATION-HUGO.md`, `docs/MIGRATION-ZOLA.md`, `docs/ADR` (`0001`..`0003`), and distribution manifests (`pkg/brew`, `pkg/aur`, `pkg/debian`, `pkg/rpm`, `pkg/nix`).
+
+### `v0.0.9` - `v0.0.10`
+
+* **Quality Gate &amp; CI Hardening**: Enforced clippy pedantic lints, SPDX license headers, OpenSSF Scorecard workflows, and deterministic Criterion benchmarks.
+
+### `v0.0.1` - `v0.0.8`
+
+* **Foundation Releases**: Introduced `MarkdownProcessor` (CommonMark + GFM + TOC + HTML sanitization), `HtmlTemplateRenderer` (`parking_lot::RwLock` Handlebars cache + `UppercaseHelper`), `HtmlOutputGenerator` (HTML5 tag balance + `minify-html`), `FileContentProcessor` (`sanitize_path`), and `ConfigBuilder`.
+
+---
+
+## Documentation Website (`nucleusflow.github.io`)
+
+### `v0.0.1` (2026-10-31)
+
+* **Initial Public Launch (`nucleusflow.com`)**: Published 20 WCAG 2.2 Level AAA compliant documentation routes compiled with `ssg 0.0.69` and Skeletonic CSS (`Visage` theme).
+* **Cryptographic &amp; AI Readiness**: Added SHA-384 Subresource Integrity (SRI) digests, strict Content-Security-Policy (CSP), CycloneDX 1.5 SBOM (`sbom.cdx.json`), RFC 9116 `security.txt`, and LLM context bundles (`llms.txt` and `llms-full.txt`).

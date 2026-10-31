@@ -1,0 +1,21 @@
+{
+  "api": "ssg-agent-api",
+  "counts": {
+    "posts": 19,
+    "topics": 0
+  },
+  "links": {
+    "index": "https://nucleusflow.com/api/agents/index.json",
+    "person": "https://nucleusflow.com/api/agents/person.json",
+    "posts": "https://nucleusflow.com/api/agents/posts.json",
+    "topics": "https://nucleusflow.com/api/agents/topics.json"
+  },
+  "site": {
+    "description": "Fast, flexible, and secure static site generator and content processing pipeline in Rust. Parse CommonMark + GFM, render Handlebars templates, and minify HTML in ~28 microseconds per page.",
+    "language": "en-GB",
+    "name": "NucleusFlow",
+    "title": "NucleusFlow | Fast, Secure Rust Static Site Generator & Content Pipeline",
+    "url": "https://nucleusflow.com"
+  },
+  "version": "0.0.69"
+}

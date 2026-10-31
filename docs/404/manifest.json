@@ -1,0 +1,12 @@
+{
+  "background_color": "#ffffff",
+  "description": "The requested documentation page could not be found on nucleusflow.com. Return to the homepage or browse the API, format",
+  "display": "standalone",
+  "icons": [],
+  "name": "NucleusFlow",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "nucleusflow",
+  "start_url": ".",
+  "theme_color": "#11355c"
+}

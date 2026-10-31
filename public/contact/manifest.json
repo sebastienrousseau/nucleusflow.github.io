@@ -1,0 +1,12 @@
+{
+  "background_color": "#ffffff",
+  "description": "Get in touch with the NucleusFlow maintainer for technical support, feature proposals, custom template integrations, or ",
+  "display": "standalone",
+  "icons": [],
+  "name": "NucleusFlow",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "nucleusflow",
+  "start_url": ".",
+  "theme_color": "#11355c"
+}

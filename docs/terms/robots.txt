@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://nucleusflow.com/terms/index.html/sitemap.xml
